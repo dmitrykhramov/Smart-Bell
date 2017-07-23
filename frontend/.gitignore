@@ -1,0 +1,11 @@
+/frontend/node_modules
+/server/node_modules
+/frontend/bundle.js
+/frontend/npm-debug.log
+/frontend/.DS_Store
+
+# IntelliJ
+*.iml
+/.idea
+python-stream/*.pyc
+
