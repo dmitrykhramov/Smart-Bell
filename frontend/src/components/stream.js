@@ -6,7 +6,8 @@ export default class Stream extends Component {
     constructor(props) {
         super(props);
         this.state = {url: ""};
-    }
+        this.makePhotos = this.makePhotos.bind(this); 
+	}
 
     // Setting up websocket client connection
     componentWillMount() {

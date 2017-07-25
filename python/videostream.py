@@ -2,6 +2,10 @@ import base64
 import cv2
 import time
 from threading import Thread
+import RPi.GPIO as GPIO
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 class Stream(Thread):
 	def __init__(self, ws):
@@ -12,20 +16,30 @@ class Stream(Thread):
 	def run(self):
 		self.camera = cv2.VideoCapture(0)
 		
+		prev_input = 1
+		
 		while self.flag[0]:
 			rval, frame = self.camera.read()
-		
+			
 			if frame is None:
 				self.camera.release()
 				self.camera = cv2.VideoCapture(0)
 				continue
-				
+			
 			rvel, jpeg = cv2.imencode('.jpg', frame)
 			encode_string = base64.b64encode(jpeg)
 			self.ws.write_message(encode_string)
+			
+			but = GPIO.input(17)
+			
+			if(not prev_input and but):
+				print(but)
+			
+			prev_input = but
 			time.sleep(0.05)
+            
 		self.camera.release()
-		print ("terminated")
-	
+
 	def stop(self):
 		self.flag[0] = False
+		
