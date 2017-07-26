@@ -5,7 +5,6 @@ import time
 from videostream import Stream
 
 stream_thread = None
-#makephoto_thread = None
 
 class SocketHandler(websocket.WebSocketHandler):
 	def check_origin(self, origin):
@@ -18,6 +17,8 @@ class SocketHandler(websocket.WebSocketHandler):
 		stream_thread.start()
 	
 	def on_message(self, message):
+		global stream_thread
+		stream_thread.change_flag()
 		print(message)
 
 	def on_close(self):
