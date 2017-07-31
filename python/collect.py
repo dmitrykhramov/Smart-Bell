@@ -2,6 +2,9 @@ import cv2
 import numpy as np
 import face_recognition
 
+# Get Face Detector from dlib
+# This allows us to detect faces in images
+
 # Collect 10 samples of your face from webcam input
 def collect_pictures(frame, folder_name, file_name):
     print('method collect pictures')
@@ -20,7 +23,6 @@ def collect_pictures(frame, folder_name, file_name):
     else:
         print("Face not found")
         return False
-
 
 def face_extractor(img):
     # Function detects faces and returns the cropped face
@@ -43,4 +45,4 @@ def face_extractor(img):
         face_image = img[top:bottom, left:right]
             
     return face_image
-        
+    

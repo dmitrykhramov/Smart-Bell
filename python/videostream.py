@@ -59,18 +59,16 @@ class Stream(Thread):
 				
 				count = 0
 				s_time = time.time()
-				while count < 15:
-					
+				while count < 50:
 					file_name = '/img' + str(datetime.now()) + '.jpg'
 					success, capture_img = self.camera.read()
-					small_frame = cv2.resize(capture_img, (0, 0), fx=0.25, fy=0.25)
-					if collect.collect_pictures(capture_img, path, file_name):
+					small_frame = cv2.resize(capture_img, (0, 0), fx=0.2, fy=0.2)
+					if collect.collect_pictures(small_frame, path, file_name):
 						count += 1
-						print("finish")
-					
-					time.sleep(1)
+					#time.sleep(1)
 				print(time.time()-s_time)
 				self.capture_flag[0] = False
+				
 		self.camera.release()
 	
 	def change_flag(self):
