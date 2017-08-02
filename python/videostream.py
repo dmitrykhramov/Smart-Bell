@@ -39,14 +39,17 @@ class Stream(Thread):
 			encode_string = base64.b64encode(jpeg)
 			self.ws.write_message(encode_string)
 			
+			#Push physical button
 			but = GPIO.input(17)
 			
 			if(not prev_input and but):
 				print(but)
+				
 			
 			prev_input = but
 			time.sleep(0.05)
 			
+			#Click make photos button on web browser
 			if self.capture_flag[0] == True:
 				#Get last _id from mongodb
 				db_data = db.find().sort('_id',1)
