@@ -1,41 +1,42 @@
-import sys
-import dlib
-from skimage import io
-import time
-import cv2
-import openface
+import face_recognition
+import picamera
+import numpy as np
+from pymongo import MongoClient
 
-# You can download the required pre-trained face detection model here:
-# http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2
-predictor_model = "shape_predictor_68_face_landmarks.dat"
+def face_comparison(frame):
+	
+	valid = False
+	
+	client = MongoClient('localhost',27017)
+	db = client.smartbell.visitors
+	
+	visitors = db.find()
+	__id = []
+	for cur in visitors:
+		__id.append(cur['_id'])
+	
+	for i in __id:
+		# Load a sample picture and learn how to recognize it.
+		print("Loading known face image(s)")
+		image = face_recognition.load_image_file('pics/'+str(i)+'/img1.jpg')
+		image_face_encoding = face_recognition.face_encodings(image)[0]
 
-# Create a HOG face detector using the built-in dlib class
-face_detector = dlib.get_frontal_face_detector()
-face_pose_predictor = dlib.shape_predictor(predictor_model)
-face_aligner = openface.AlignDlib(predictor_model)
+		# Initialize some variables
+		face_locations = []
+		face_encodings = []
 
-win = dlib.image_window()
+		# Find all the faces and face encodings in the current frame of video
+		face_locations = face_recognition.face_locations(frame)
+		print("Found {} faces in image.".format(len(face_locations)))
+		face_encodings = face_recognition.face_encodings(frame, face_locations)
 
-camera = cv2.VideoCapture(0)
-success, image = camera.read()
+		# Loop over each face found in the frame to see if it's someone we know.
+		for face_encoding in face_encodings:
+			# See if the face is a match for the known face(s)
+			match = face_recognition.compare_faces([image_face_encoding], face_encoding)
 
-detected_faces = face_detector(image, 1)
+			if match[0]:
+				valid = True
 
-win.set_image(image)
-
-for i, face_rect in enumerate(detected_faces):
-
-	# Draw a box around each face we found
-	win.add_overlay(face_rect)
-
-	# Get the the face's pose
-	pose_landmarks = face_pose_predictor(image, face_rect)
-
-	# Draw the face landmarks on the screen.
-#	win.add_overlay(pose_landmarks)
-	alignedFace = face_aligner.align(534, image, face_rect, landmarkIndices=openface.AlignDlib.OUTER_EYES_AND_NOSE)
-	#win.add_overlay(alignedFace)
-	# Save the aligned image to a file
-	#cv2.imwrite("aligned_face_{}.jpg".format(i), alignedFace)
-	        
-dlib.hit_enter_to_continue()
+			print("I see someone id {}!".format(i))	
+	return valid

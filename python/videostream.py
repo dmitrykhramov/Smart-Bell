@@ -7,6 +7,7 @@ from datetime import datetime
 import os
 import collect
 from pymongo import MongoClient
+import recognition
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -44,6 +45,10 @@ class Stream(Thread):
 			
 			if(not prev_input and but):
 				print(but)
+				if recognition.face_comparison(frame):
+					print("open")
+				else:
+					print("close")
 				
 			
 			prev_input = but
@@ -62,10 +67,11 @@ class Stream(Thread):
 				
 				count = 0
 				s_time = time.time()
-				while count < 50:
-					file_name = '/img' + str(datetime.now()) + '.jpg'
+				while count < 15:
+					#file_name = '/img' + str(datetime.now()) + '.jpg'
+					file_name = '/img' + str(count) + '.jpg'
 					success, capture_img = self.camera.read()
-					small_frame = cv2.resize(capture_img, (0, 0), fx=0.2, fy=0.2)
+					small_frame = cv2.resize(capture_img, (0, 0), fx=0.25, fy=0.25)
 					if collect.collect_pictures(small_frame, path, file_name):
 						count += 1
 					#time.sleep(1)

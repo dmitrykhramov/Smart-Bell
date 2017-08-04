@@ -7,11 +7,6 @@ import dlib
 # Get Face Detector from dlib
 # This allows us to detect faces in images
 
-#predictor_model = "shape_predictor_68_face_landmarks.dat"
-
-#face_pose_predictor = dlib.shape_predictor(predictor_model)
-#face_aligner = openface.AlignDlib(predictor_model)
-
 # Collect 10 samples of your face from webcam input
 def collect_pictures(frame, folder_name, file_name):
     print('method collect pictures')
@@ -48,9 +43,6 @@ def face_extractor(img):
         top, right, bottom, left = face_location
         print("A face is located at pixel location Top: {}, Left: {}, Bottom: {}, Right: {}".format(top, left, bottom, right))
         
-        #pose_landmarks = face_pose_predictor(img, face_location)
-        
-        #alignedFace = face_aligner.align(534, img, face_location, landmarkIndices=openface.AlignDlib.OUTER_EYES_AND_NOSE)
         # You can access the actual face itself like this:
         face_image = img[top:bottom, left:right]
             
