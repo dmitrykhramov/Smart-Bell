@@ -1,3 +1,4 @@
+
 import base64
 import cv2
 import time
@@ -45,8 +46,7 @@ class Stream(Thread):
 			
 			if(not prev_input and but):
 				print(but)
-				small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
-				if recognition.face_comparison(small_frame):
+				if recognition.face_comparison(frame):
 					print("open")
 				else:
 					print("close")
@@ -72,13 +72,9 @@ class Stream(Thread):
 					#file_name = '/img' + str(datetime.now()) + '.jpg'
 					file_name = '/img' + str(count) + '.jpg'
 					success, capture_img = self.camera.read()
-					if len(capture_img) != 0:
+					small_frame = cv2.resize(capture_img, (0, 0), fx=0.25, fy=0.25)
+					if collect.collect_pictures(small_frame, path, file_name):
 						count += 1
-						file_name_path = path + file_name
-						cv2.imwrite(file_name_path, capture_img)
-					#small_frame = cv2.resize(capture_img, (0, 0), fx=0.25, fy=0.25)
-					#if collect.collect_pictures(small_frame, path, file_name):
-						#count += 1
 					#time.sleep(1)
 				print(time.time()-s_time)
 				self.capture_flag[0] = False

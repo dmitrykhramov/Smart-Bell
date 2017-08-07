@@ -2,6 +2,8 @@ import face_recognition
 import picamera
 import numpy as np
 from pymongo import MongoClient
+import time
+import cv2
 
 def face_comparison(frame):
 	
@@ -14,12 +16,18 @@ def face_comparison(frame):
 	__id = []
 	for cur in visitors:
 		__id.append(cur['_id'])
-	
+	s_time = time.time()
 	for i in __id:
 		# Load a sample picture and learn how to recognize it.
 		print("Loading known face image(s)")
 		image = face_recognition.load_image_file('pics/'+str(i)+'/img1.jpg')
-		image_face_encoding = face_recognition.face_encodings(image)[0]
+		
+		if len(image) == 0:
+			print("Cannot find image")
+			continue
+			
+		small_image = cv2.resize(image, (0, 0), fx=0.25, fy=0.25)
+		image_face_encoding = face_recognition.face_encodings(small_image)[0]
 
 		# Initialize some variables
 		face_locations = []
@@ -37,6 +45,7 @@ def face_comparison(frame):
 
 			if match[0]:
 				valid = True
-
-			print("I see someone id {}!".format(i))	
+				print("I see someone id {}!".format(i))
+		
+		print(time.time()-s_time)
 	return valid
