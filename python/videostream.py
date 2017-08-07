@@ -68,6 +68,14 @@ class Stream(Thread):
 				
 				count = 0
 				s_time = time.time()
+				while count < 1:
+					file_name = '/img' + str(count) + '.jpg'
+					success, capture_img = self.camera.read()
+					if len(capture_img) != 0:
+						count += 1
+						file_name_path = path + file_name
+						cv2.imwrite(file_name_path, capture_img)
+				'''
 				while count < 15:
 					#file_name = '/img' + str(datetime.now()) + '.jpg'
 					file_name = '/img' + str(count) + '.jpg'
@@ -80,6 +88,7 @@ class Stream(Thread):
 					#if collect.collect_pictures(small_frame, path, file_name):
 						#count += 1
 					#time.sleep(1)
+					'''
 				print(time.time()-s_time)
 				self.capture_flag[0] = False
 				
