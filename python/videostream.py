@@ -8,6 +8,7 @@ import os
 import collect
 from pymongo import MongoClient
 import recognition
+import face_recognition
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -46,11 +47,19 @@ class Stream(Thread):
 			if(not prev_input and but):
 				print(but)
 				small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+				#exception : if not detect face, than cause error.
+				#if len(face_recognition.face_locations(small_frame)) == 0:
+				#	print("Cannot detect face. Try again")
+					
+				#else:
+				#	if recognition.face_comparison(small_frame):
+				#		print("open")
+				#	else:
+				#		print("close")
 				if recognition.face_comparison(small_frame):
 					print("open")
 				else:
 					print("close")
-				
 			
 			prev_input = but
 			time.sleep(0.05)
@@ -68,14 +77,23 @@ class Stream(Thread):
 				
 				count = 0
 				s_time = time.time()
-				while count < 1:
+				#08.08
+				file_name = '/img' + str(count) + '.jpg'
+				enough_image = False
+				while enough_image == False:
+					success, capture_img = self.camera.read()
+					enough_image = collect.collect_picture(capture_img, path, file_name)
+					
+				'''
+				#07.08
+				while count < 3:
 					file_name = '/img' + str(count) + '.jpg'
 					success, capture_img = self.camera.read()
 					if len(capture_img) != 0:
 						count += 1
 						file_name_path = path + file_name
 						cv2.imwrite(file_name_path, capture_img)
-				'''
+				#before 07.08
 				while count < 15:
 					#file_name = '/img' + str(datetime.now()) + '.jpg'
 					file_name = '/img' + str(count) + '.jpg'
@@ -99,4 +117,5 @@ class Stream(Thread):
 
 	def stop(self):
 		self.flag[0] = False
+
 	

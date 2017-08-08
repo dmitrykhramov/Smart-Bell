@@ -22,12 +22,7 @@ def face_comparison(frame):
 		print("Loading known face image(s)")
 		image = face_recognition.load_image_file('pics/'+str(i)+'/img0.jpg')
 		
-		if len(image) == 0:
-			print("Cannot find image")
-			continue
-			
-		small_image = cv2.resize(image, (0, 0), fx=0.5, fy=0.5)
-		
+		small_image = cv2.resize(image, (0, 0), fx=0.25, fy=0.25)
 		image_face_encoding = face_recognition.face_encodings(small_image)[0]
 
 		# Initialize some variables
@@ -36,6 +31,7 @@ def face_comparison(frame):
 
 		# Find all the faces and face encodings in the current frame of video
 		face_locations = face_recognition.face_locations(frame)
+		
 		print("Found {} faces in image.".format(len(face_locations)))
 		face_encodings = face_recognition.face_encodings(frame, face_locations)
 
@@ -47,10 +43,9 @@ def face_comparison(frame):
 			if match[0]:
 				valid = True
 				
-		print(time.time()-s_time)
-		
 		if valid:
 			print("I see someone id {}!".format(i))
+			print(time.time()-s_time)
 			break
-			
+		
 	return valid
