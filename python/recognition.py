@@ -1,22 +1,55 @@
 import face_recognition
-import picamera
 import numpy as np
-from pymongo import MongoClient
+#from pymongo import MongoClient
 import time
 import cv2
+import pickle
+#import known_faces_encoding
 
 def face_comparison(frame):
 	
-	valid = False
+	#valid = False
+	with open('faces_encodings.txt','r') as f:
+		image_face_encoding = pickle.load(f)
+	print(image_face_encoding)
+	s_time = time.time()
+	face_locations = []
+	face_encodings = []
 	
+	face_encodings = face_recognition.face_encodings(frame)
+	match = face_recognition.compare_faces(image_face_encoding, face_encodings)
+	
+	print(time.time()-s_time)
+	return match
+'''
+	face_locations = face_recognition.face_locations(frame)
+	
+	face_encodings = face_recognition.face_encodings(frame, face_locations)
+
+	for face_encoding in face_encodings:
+		match = face_recognition.compare_faces(image_face_encoding, face_encoding)
+		if match[0]:
+			valid = True
+			print("I see someone")
+			
+	print(time.time()-s_time)
+	return valid
+
 	client = MongoClient('localhost',27017)
 	db = client.smartbell.visitors
-	
+
 	visitors = db.find()
 	__id = []
 	for cur in visitors:
 		__id.append(cur['_id'])
-	s_time = time.time()
+	
+
+	#image_face_encoding = known_faces_encoding.known_faces_encoding_()
+	
+	
+	#image_face_encoding = np.loadtxt('faces_encodings.txt')
+
+	known_faces_encoding.known_faces_encoding_()
 	for i in __id:
 		# Load a sample picture and learn how to recognize it.
 		print("Loading known face image(s)")
@@ -24,7 +57,7 @@ def face_comparison(frame):
 		
 		small_image = cv2.resize(image, (0, 0), fx=0.25, fy=0.25)
 		image_face_encoding = face_recognition.face_encodings(small_image)[0]
-
+		
 		# Initialize some variables
 		face_locations = []
 		face_encodings = []
@@ -45,7 +78,10 @@ def face_comparison(frame):
 				
 		if valid:
 			print("I see someone id {}!".format(i))
-			print(time.time()-s_time)
+			#print(time.time()-s_time)
 			break
-		
+
 	return valid
+'''	
+
+

@@ -3,7 +3,7 @@ import cv2
 import time
 from threading import Thread
 import RPi.GPIO as GPIO
-from datetime import datetime
+#from datetime import datetime
 import os
 import collect
 from pymongo import MongoClient
@@ -48,18 +48,18 @@ class Stream(Thread):
 				print(but)
 				small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 				#exception : if not detect face, than cause error.
-				#if len(face_recognition.face_locations(small_frame)) == 0:
-				#	print("Cannot detect face. Try again")
+				if len(face_recognition.face_locations(small_frame)) == 0:
+					print("Cannot detect face. Try again")
 					
-				#else:
-				#	if recognition.face_comparison(small_frame):
-				#		print("open")
-				#	else:
-				#		print("close")
-				if recognition.face_comparison(small_frame):
-					print("open")
 				else:
-					print("close")
+					if recognition.face_comparison(small_frame):
+						print("open")
+					else:
+						print("close")
+				#if recognition.face_comparison(small_frame):
+				#	print("door open")
+				#else:
+				#	print("door close")
 			
 			prev_input = but
 			time.sleep(0.05)
