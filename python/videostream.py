@@ -9,6 +9,7 @@ import collect
 from pymongo import MongoClient
 import recognition
 import face_recognition
+from bson.objectid import ObjectId
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -52,15 +53,15 @@ class Stream(Thread):
 					print("Cannot detect face. Try again")
 					
 				else:
-					if recognition.face_comparison(small_frame):
-						print("open")
+					__id = recognition.face_comparison(small_frame)
+					if __id == 0:
+						print("Does not register")
 					else:
-						print("close")
-				#if recognition.face_comparison(small_frame):
-				#	print("door open")
-				#else:
-				#	print("door close")
-			
+						valid = db.find_one({"_id": ObjectId(__id[0])})
+						if valid['__v'] == 0:
+							print("Available face, open")
+						else:
+							print("Unavailable face, close")
 			prev_input = but
 			time.sleep(0.05)
 			

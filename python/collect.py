@@ -4,6 +4,7 @@ import face_recognition
 import dlib
 import pickle
 import os
+from pymongo import MongoClient
 
 # Get Face Detector from dlib
 # This allows us to detect faces in images
@@ -23,24 +24,29 @@ def collect_picture(frame, folder_name, file_name):
 		file_name_path = folder_name + file_name
 		cv2.imwrite(file_name_path, frame)
 		
+		client = MongoClient('localhost',27017)
+		db = client.smartbell.visitors
+		visitors = db.find_one(sort=[('_id',-1)])
+		__id = visitors['_id']
+		
 		image_face_encoding = face_recognition.face_encodings(small_frame)[0]
+		data = [[__id],image_face_encoding]
 		
 		if os.path.getsize('faces_encodings.txt') == 0:
 			with open('faces_encodings.txt','wb') as f:
-				pickle.dump(image_face_encoding,f)
+				pickle.dump(data,f)
 		
 		else:
 			with open('faces_encodings.txt','rb') as f:
 				known_faces_encoding_data = pickle.load(f)
-			known_faces_encoding_data = np.vstack((known_faces_encoding_data,image_face_encoding))
+			known_faces_encoding_data = np.vstack((known_faces_encoding_data,data))
 			print(known_faces_encoding_data)
-			print(np.shape(known_faces_encoding_data))
 				
 			with open('faces_encodings.txt','wb') as f:
 				pickle.dump(known_faces_encoding_data, f)
 			
 		#with open('faces_encodings.txt','rb') as f:
 		#	a = pickle.load(f)
-			
+	
 		print("face detection successes")
 		return True
