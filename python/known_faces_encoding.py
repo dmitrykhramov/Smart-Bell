@@ -7,12 +7,30 @@ import pickle
 import os
 from bson.objectid import ObjectId
 
+#cam = cv2.VideoCapture(0)
+#ret, frame = cam.read()
+
+#small_image = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+#image_face_encoding = face_recognition.face_encodings(small_image)[0]
+
+#with open('faces_encodings.txt','r') as f:
+#		image_face_encoding = pickle.load(f)
+#a, b = image_face_encoding
+#print([b])
+#img = face_recognition.load_image_file('pics/5991347455b82c082e697c4d/img0.jpg')
+#small_frame = cv2.resize(img, (0, 0), fx=0.25, fy=0.25)
+#face_encodings = face_recognition.face_encodings(small_frame)
+#print([face_encodings])
+
+
+'''
 client = MongoClient('localhost',27017)
 db = client.smartbell.visitors
 a = '598c31c5dafdd80806e7044a'
 b = [ObjectId(a)]
 print(b)
 print(b[0])
+'''
 #visitors = db.find_one({"_id": ObjectId(a)})
 #print(visitors['__v'])
 
@@ -20,8 +38,8 @@ print(b[0])
 #with open('faces_encodings.txt','r') as f:
 #	a = pickle.load(f)
 #	print(a)
-#with open('faces_encodings.txt','w'):
-#	pass
+with open('faces_encodings.txt','w'):
+	pass
 '''
 client = MongoClient('localhost',27017)
 db = client.smartbell.visitors

@@ -18,11 +18,15 @@ def face_comparison(frame):
 	face_encodings = []
 	
 	face_encodings = face_recognition.face_encodings(frame)
-
+		
 	for i in range(len(image_face_encoding)):
 		for face_encoding in face_encodings:
-			ret, encoding_data = image_face_encoding[i]
-			match = face_recognition.compare_faces([encoding_data], face_encoding)
+			if len(image_face_encoding) == 2 and len(image_face_encoding[0]) == 1:
+				ret, encoding_data = image_face_encoding
+				match = face_recognition.compare_faces([[encoding_data]], face_encoding)
+			else:	
+				ret, encoding_data = image_face_encoding[i]
+				match = face_recognition.compare_faces([encoding_data], face_encoding)
 			if match:
 				#print([encoding_data])
 				__id = ret
@@ -30,9 +34,7 @@ def face_comparison(frame):
 				print(time.time()-s_time)
 		if __id != 0:
 			break
-	#match = face_recognition.compare_faces(image_face_encoding, face_encodings)
-	
-	#print(time.time()-s_time)
+
 	return __id
 '''
 	face_locations = face_recognition.face_locations(frame)
