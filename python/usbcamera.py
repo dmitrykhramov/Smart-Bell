@@ -4,17 +4,19 @@ import cv2
 import time
 from videostream import Stream
 
-stream_thread = None
+#open video stream
+
+stream_thread = Stream()
+stream_thread.daemon = True
+stream_thread.start()
 
 class SocketHandler(websocket.WebSocketHandler):
 	def check_origin(self, origin):
 		return True
         
 	def open(self):
-		global stream_thread
 		print("client connected")
-		stream_thread = Stream(self)
-		stream_thread.start()
+		stream_thread.add_client(self)
 	
 	def on_message(self, message):
 		global stream_thread
@@ -23,8 +25,6 @@ class SocketHandler(websocket.WebSocketHandler):
 
 	def on_close(self):
 		print("client disconnected")
-		global stream_thread
-		stream_thread.stop()
 		
 	
 def main():
