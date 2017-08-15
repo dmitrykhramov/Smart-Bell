@@ -6,7 +6,8 @@ export default class Stream extends Component {
     constructor(props) {
         super(props);
         this.state = {url: ""};
-        this.makePhotos = this.makePhotos.bind(this); 
+        this.makePhotos = this.makePhotos.bind(this);
+        this.deleteVisitor = this.deleteVisitor.bind(this); 
 	}
 
     // Setting up websocket client connection
@@ -38,7 +39,11 @@ export default class Stream extends Component {
     }
 
     makePhotos() {
-        this.ws.send("make photo");
+        this.ws.send("photo;make");
+    }
+    
+    deleteVisitor() {
+        this.ws.send("delete;5992ecbad1cc3f16c0bc06f3");
     }
 
     render() {
@@ -49,6 +54,7 @@ export default class Stream extends Component {
                 </div>
                 <AddVisitor />
                 <button onClick={this.makePhotos} className="btn btn-primary">Make photos</button>
+                <button onClick={this.deleteVisitor} className="btn btn-primary">Delete visitor</button>
             </div>
         );
     }

@@ -3,7 +3,7 @@ import base64
 import cv2
 import time
 from videostream import Stream
-
+from delete import delete_face
 #open video stream
 
 stream_thread = Stream()
@@ -17,14 +17,23 @@ class SocketHandler(websocket.WebSocketHandler):
 	def open(self):
 		print("client connected")
 		stream_thread.add_client(self)
-	
+		stream_thread.change_socket_flag()
+		
+		
 	def on_message(self, message):
-		global stream_thread
-		stream_thread.change_flag()
-		print(message)
-
+		command = message.split(';')
+		print(command[0])
+		if command[0] == "photo":
+			print("photo")
+			stream_thread.change_capture_flag()
+		elif command[0] == "delete":
+			print("delete")
+			print(command[1])
+			print(delete_face(command[1]))
 	def on_close(self):
 		print("client disconnected")
+		stream_thread.change_socket_flag()
+		stream_thread.remove_client(self)
 		
 	
 def main():

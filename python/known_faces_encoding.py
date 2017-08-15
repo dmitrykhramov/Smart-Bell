@@ -6,6 +6,31 @@ import cv2
 import pickle
 import os
 from bson.objectid import ObjectId
+import delete
+
+
+#with open('faces_encodings1.txt','w'):
+#	pass
+
+#image = face_recognition.load_image_file('pics/5992ce18d1cc3f16c0bc06ee/img0.jpg')
+#small_image = cv2.resize(image, (0, 0), fx=0.25, fy=0.25)
+# Encode the face as known face
+#image_face_encoding = face_recognition.face_encodings(small_image)[0]
+#__id = ObjectId('5992ce18d1cc3f16c0bc06ee')
+#data = [[__id],image_face_encoding]
+#print(data)
+#with open('faces_encodings1.txt','w') as f:
+#	pickle.dump(data,f)
+'''
+#delete
+client = MongoClient('localhost',27017)
+	
+db = client.smartbell.visitors
+visitors = db.find_one({"_id": ObjectId('5992ce18d1cc3f16c0bc06ee')})
+print("delete start")
+delete.delete_face(visitors['_id'])
+'''
+#photo encoding
 with open('faces_encodings.txt','w'):
 	pass
 
@@ -35,6 +60,7 @@ for i in __id:
 		with open('faces_encodings.txt','wb') as f:
 			pickle.dump(known_faces_encoding_data, f)
 
+#finish
 '''
 with open('5992945b627f2b0cf547c62a.txt','r') as fa:
 	b = pickle.load(fa)
