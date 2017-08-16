@@ -7,8 +7,27 @@ import pickle
 import os
 from bson.objectid import ObjectId
 import delete
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(23, GPIO.OUT)
+GPIO.cleanup()
+'''
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(23, GPIO.OUT)
 
 
+GPIO.output(23, GPIO.LOW)
+
+
+time.sleep(2)
+GPIO.output(23, GPIO.HIGH)
+time.sleep(2)
+GPIO.output(23, GPIO.LOW)
+
+time.sleep(2)
+GPIO.output(23, GPIO.HIGH)
+GPIO.output(23, GPIO.LOW)
+'''
 #with open('faces_encodings1.txt','w'):
 #	pass
 
@@ -29,7 +48,7 @@ db = client.smartbell.visitors
 visitors = db.find_one({"_id": ObjectId('5992ce18d1cc3f16c0bc06ee')})
 print("delete start")
 delete.delete_face(visitors['_id'])
-'''
+
 #photo encoding
 with open('faces_encodings.txt','w'):
 	pass
@@ -61,7 +80,7 @@ for i in __id:
 			pickle.dump(known_faces_encoding_data, f)
 
 #finish
-'''
+
 with open('5992945b627f2b0cf547c62a.txt','r') as fa:
 	b = pickle.load(fa)
 	print(b)

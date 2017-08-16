@@ -4,16 +4,15 @@ import face_recognition
 import dlib
 import pickle
 import os
-#from pymongo import MongoClient
 
-# Get Face Detector from dlib
-# This allows us to detect faces in images
+# Save a photo which is enough to detect face
+# Encode the photo and dump it to known faces encoding text file
+# This can make us to get known faces encoding text file
 
-# Collect 10 samples of your face from webcam input
 def collect_picture(frame, folder_name, file_name, __id):
 	
-	small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 	# Detect face
+	small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 	face_locations = face_recognition.face_locations(small_frame)
 	
 	# If not detect face
@@ -26,22 +25,20 @@ def collect_picture(frame, folder_name, file_name, __id):
 		file_name_path = folder_name + file_name
 		cv2.imwrite(file_name_path, frame)
 		
+		# Encode the face as known face
 		image = face_recognition.load_image_file('pics/'+str(__id)+'/img0.jpg')
 		small_image = cv2.resize(image, (0, 0), fx=0.25, fy=0.25)
-		# Encode the face as known face
 		image_face_encoding = face_recognition.face_encodings(small_image)[0]
 		data = [[__id],image_face_encoding]
-		# If it's first person, just dump it
+		
+		# Save the encoding data
 		if os.path.getsize('faces_encodings.txt') == 0:
 			with open('faces_encodings.txt','wb') as f:
 				pickle.dump(data,f)
-		# If it's not first person, read existing file and append it
 		else:
 			with open('faces_encodings.txt','rb') as f:
 				known_faces_encoding_data = pickle.load(f)
 			known_faces_encoding_data = np.vstack((known_faces_encoding_data,data))
-			#print(known_faces_encoding_data)
-				
 			with open('faces_encodings.txt','wb') as f:
 				pickle.dump(known_faces_encoding_data, f)
 

@@ -12,6 +12,12 @@ from bson.objectid import ObjectId
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+#GPIO.setup(23, GPIO.OUT) # LED for open
+#GPIO.setup(24, GPIO.OUT) # LED for close
+#GPIO.output(23, GPIO.LOW)
+#GPIO.output(24, GPIO.LOW)
+
+# Camera stream
 
 class Stream(Thread):
 	def __init__(self):
@@ -38,22 +44,19 @@ class Stream(Thread):
 				self.camera = cv2.VideoCapture(0)
 				continue
 			
+			# Send camera stream to web
 			if self.flag[0]:
 				rvel, jpeg = cv2.imencode('.jpg', frame)
 				encode_string = base64.b64encode(jpeg)
 				for client in self.clients:
 					client.write_message(encode_string)
 			
-			#Push physical button
+			# Push physical button, visitor pushes button
 			but = GPIO.input(17)
-			
 			if(not prev_input and but):
-				print(but)
 				small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
-				#exception : if not detect face, than cause error.
 				if len(face_recognition.face_locations(small_frame)) == 0:
 					print("Cannot detect face. Try again")
-					
 				else:
 					__id = recognition.face_comparison(small_frame)
 					if __id == 0:
@@ -68,9 +71,8 @@ class Stream(Thread):
 			prev_input = but
 			time.sleep(0.05)
 			
-			#Click make photos button on web browser
+			# Click makephotos on web browser
 			if self.capture_flag[0] == True:
-				#Get last _id from mongodb
 				visitors = db.find_one(sort=[('_id',-1)])
 				__id = visitors['_id']
 				path = 'pics/' + str(__id)
@@ -82,9 +84,9 @@ class Stream(Thread):
 				while enough_image == False:
 					success, capture_img = self.camera.read()
 					enough_image = collect.collect_picture(capture_img, path, file_name, __id)
-
+				print("Success to register")
 				self.capture_flag[0] = False
-				
+	
 		self.camera.release()
 	
 	def change_capture_flag(self):

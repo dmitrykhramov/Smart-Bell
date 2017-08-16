@@ -4,7 +4,6 @@ import cv2
 import time
 from videostream import Stream
 from delete import delete_face
-#open video stream
 
 stream_thread = Stream()
 stream_thread.daemon = True
