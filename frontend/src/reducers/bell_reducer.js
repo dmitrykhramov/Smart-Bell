@@ -3,7 +3,8 @@ import {
     UNAUTH_USER,
     AUTH_ERROR,
     FETCH_LOGS,
-    FETCH_VISITORS
+    FETCH_VISITORS,
+    SOCKET_STATE
 } from '../actions/types';
 
 export default function(state = {}, action) {
@@ -18,6 +19,8 @@ export default function(state = {}, action) {
             return { ...state, logs: action.payload };
         case FETCH_VISITORS:
             return { ...state, visitors: action.payload };
+        case SOCKET_STATE:
+            return { ...state, socket: action.payload };
     }
 
     return state;

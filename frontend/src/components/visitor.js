@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import ToggleButton from 'react-toggle-button'
 
 class Visitor extends Component {
 
@@ -26,6 +25,7 @@ class Visitor extends Component {
     deleteVisitor = (id) => e => {
         this.props.deleteVisitor(id);
         this.props.fetchVisitors();
+        this.props.ws.send("delete;" + id);
     };
 
     renderVisitors() {
@@ -43,7 +43,6 @@ class Visitor extends Component {
     }
 
     render() {
-
         return (
             <div>
                 <ul className="list-group">
@@ -55,7 +54,7 @@ class Visitor extends Component {
 }
 
 function mapStateToProps(state) {
-    return { visitors: state.auth.visitors };
+    return { visitors: state.bell.visitors, ws: state.bell.socket };
 }
 
 export default connect(mapStateToProps, actions)(Visitor);

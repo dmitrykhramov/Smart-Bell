@@ -5,7 +5,8 @@ import {
     UNAUTH_USER,
     AUTH_ERROR,
     FETCH_LOGS,
-    FETCH_VISITORS
+    FETCH_VISITORS,
+    SOCKET_STATE
 } from './types.js';
 
 const ROOT_URL = 'http://localhost:3090';
@@ -132,5 +133,11 @@ export function toogleAccess(id, value) {
     }
 }
 
+export function addSocketToState(ws) {
+    return {
+        type: SOCKET_STATE,
+        payload: ws
+    };
+}
 
 
