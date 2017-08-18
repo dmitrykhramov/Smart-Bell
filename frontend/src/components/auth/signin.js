@@ -39,7 +39,7 @@ class Signin extends Component {
 }
 
 function mapStateToProps(state) {
-    return { errorMessage: state.auth.error };
+    return { errorMessage: state.bell.error };
 }
 
 export default reduxForm({

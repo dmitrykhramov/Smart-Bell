@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import ControlPanel from './control-panel';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 
-
-export default class Stream extends Component {
+class Stream extends Component {
     constructor(props) {
         super(props);
         this.state = {url: ""};
-        this.makePhotos = this.makePhotos.bind(this);
-        this.deleteVisitor = this.deleteVisitor.bind(this); 
 	}
 
     // Setting up websocket client connection
@@ -15,7 +14,8 @@ export default class Stream extends Component {
         this.ws = new WebSocket("ws://localhost:8000/ws");
         this.ws.onopen = () => {
             this.ws.binaryType = "arraybuffer";
-            console.log("open");
+            this.props.addSocketToState(ws);
+            console.log("opened socket");
 		};
     }
     
@@ -27,7 +27,6 @@ export default class Stream extends Component {
 			var bytes = new Uint8Array(buffer);
 			for(var i=0; i<len; i++)
 				bytes[i]  = decoding.charCodeAt(i);
-			//var bytes = new Uint8Array(msg.data);	
 			var url = encode(bytes);
 			this.setState({url: url});   
         };
@@ -37,23 +36,12 @@ export default class Stream extends Component {
         this.ws.close();
     }
 
-    makePhotos() {
-        this.ws.send("photo;make");
-    }
-    
-    deleteVisitor() {
-        this.ws.send("delete;5992ecbad1cc3f16c0bc06f3");
-    }
-
     render() {
         return (
             <div>
                 <div className="col-md-6">
                     <div>
                         <img id="stream" src={this.state.url} height="300" width="400"/>
-                    </div>
-                    <div>
-                        <button onClick={this.makePhotos} className="btn btn-primary">Make photos</button>
                     </div>
                 </div>
                 <div className="col-md-6">
@@ -64,6 +52,8 @@ export default class Stream extends Component {
     }
 
 }
+
+export default connect(null, actions)(Stream);
 
 // Converts image bytes from the server and returns image url
 function encode(input) {

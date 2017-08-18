@@ -36,7 +36,7 @@ class Log extends Component {
 }
 
 function mapStateToProps(state) {
-    return { logs: state.auth.logs };
+    return { logs: state.bell.logs };
 }
 
 export default connect(mapStateToProps, actions)(Log);
