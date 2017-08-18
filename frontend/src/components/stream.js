@@ -14,7 +14,7 @@ class Stream extends Component {
         this.ws = new WebSocket("ws://localhost:8000/ws");
         this.ws.onopen = () => {
             this.ws.binaryType = "arraybuffer";
-            this.props.addSocketToState(ws);
+            this.props.addSocketToState(this.ws);
             console.log("opened socket");
 		};
     }
