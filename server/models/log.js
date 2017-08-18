@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-var Visitor = mongoose.model('visitor', {
+var Log = mongoose.model('log', {
     firstname: {
         type: String,
         required: true
@@ -8,11 +8,7 @@ var Visitor = mongoose.model('visitor', {
     lastname: {
         type: String,
         required: true
-    },
-    access: {
-        type: Boolean,
-        default: true
     }
 });
 
-module.exports = {Visitor};
+module.exports = {Log};

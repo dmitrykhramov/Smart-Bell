@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import AddVisitor from './add-visitor';
+import ControlPanel from './control-panel';
 
 
 export default class Stream extends Component {
@@ -17,7 +17,6 @@ export default class Stream extends Component {
             this.ws.binaryType = "arraybuffer";
             console.log("open");
 		};
-		
     }
     
     componentDidMount() {
@@ -50,11 +49,16 @@ export default class Stream extends Component {
         return (
             <div>
                 <div className="col-md-6">
-                    <img id="stream" src={this.state.url} height="300" width="400"/>
+                    <div>
+                        <img id="stream" src={this.state.url} height="300" width="400"/>
+                    </div>
+                    <div>
+                        <button onClick={this.makePhotos} className="btn btn-primary">Make photos</button>
+                    </div>
                 </div>
-                <AddVisitor />
-                <button onClick={this.makePhotos} className="btn btn-primary">Make photos</button>
-                <button onClick={this.deleteVisitor} className="btn btn-primary">Delete visitor</button>
+                <div className="col-md-6">
+                    <ControlPanel />
+                </div>
             </div>
         );
     }

@@ -1,3 +1,28 @@
 .error {
     color: red;
 }
+
+nav li {
+    display: inline-block;
+    margin-right: 5px;
+}
+nav li a {
+    display: inline-block;
+    padding: 8px 10px;
+    color: #8c8caf;
+    text-decoration: none;
+}
+nav li a:hover {
+    color: #fff;
+    background: #68686d;
+    text-decoration: none;
+}
+nav li.current a {
+    color: #fff;
+    background: #b3b2ba;
+    text-decoration: none;
+}
+
+a {
+    text-decoration: none;
+}
