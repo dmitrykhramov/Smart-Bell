@@ -11,8 +11,9 @@ import face_recognition
 from bson.objectid import ObjectId
 
 GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-#GPIO.setup(23, GPIO.OUT) # LED for open
+GPIO.setup(27, GPIO.OUT)
 #GPIO.setup(24, GPIO.OUT) # LED for close
 #GPIO.output(23, GPIO.LOW)
 #GPIO.output(24, GPIO.LOW)
@@ -20,6 +21,7 @@ GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 # Camera stream
 
 class Stream(Thread):
+	
 	def __init__(self):
 		self.flag = [False]
 		self.capture_flag = [False]
@@ -29,6 +31,7 @@ class Stream(Thread):
 		Thread.__init__(self, name=Stream.__name__)
 		
 	def run(self):
+		
 		self.camera = cv2.VideoCapture(0)
 		
 		prev_input = 1
@@ -54,6 +57,7 @@ class Stream(Thread):
 			# Push physical button, visitor pushes button
 			but = GPIO.input(17)
 			if(not prev_input and but):
+				print(but)
 				small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 				if len(face_recognition.face_locations(small_frame)) == 0:
 					print("Cannot detect face. Try again")
@@ -61,13 +65,26 @@ class Stream(Thread):
 					__id = recognition.face_comparison(small_frame)
 					if __id == 0:
 						print("Does not register")
+						for n in range(5):
+								GPIO.output(27,True)
+								time.sleep(1)
+								GPIO.output(27,False)
 					else:
 						print("I see someone id {}!".format(__id))
-						#valid = db.find_one({"_id": ObjectId(__id[0])})
-						#if valid['access'] == 0:
-						#	print("Available face, open")
-						#else:
-						#	print("Unavailable face, close")
+						valid = db.find_one({"_id": ObjectId(__id[0])})
+						
+						if valid['access']:
+							print("Available face, open")
+							GPIO.output(27,True)
+							time.sleep(5)
+							GPIO.output(27,False)
+						else:
+							print("No permission, closed")
+							for n in range(5):
+								GPIO.output(27,True)
+								time.sleep(1)
+								GPIO.output(27,False)
+
 			prev_input = but
 			time.sleep(0.05)
 			

@@ -8,9 +8,10 @@ import os
 from bson.objectid import ObjectId
 import delete
 import RPi.GPIO as GPIO
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(23, GPIO.OUT)
-GPIO.cleanup()
+
+with open('faces_encodings.txt','w'):
+	pass
+	
 '''
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(23, GPIO.OUT)
@@ -27,9 +28,8 @@ GPIO.output(23, GPIO.LOW)
 time.sleep(2)
 GPIO.output(23, GPIO.HIGH)
 GPIO.output(23, GPIO.LOW)
-'''
-#with open('faces_encodings1.txt','w'):
-#	pass
+
+
 
 #image = face_recognition.load_image_file('pics/5992ce18d1cc3f16c0bc06ee/img0.jpg')
 #small_image = cv2.resize(image, (0, 0), fx=0.25, fy=0.25)
@@ -40,7 +40,7 @@ GPIO.output(23, GPIO.LOW)
 #print(data)
 #with open('faces_encodings1.txt','w') as f:
 #	pickle.dump(data,f)
-'''
+
 #delete
 client = MongoClient('localhost',27017)
 	
