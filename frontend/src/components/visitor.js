@@ -34,7 +34,7 @@ class Visitor extends Component {
                 return (
                     <li className="list-group-item" key={visitor._id}>
                         {visitor.firstname} {visitor.lastname}
-                        <button onClick={this.deleteVisitor(visitor._id)} className="btn btn-danger pull-xs-right">Delete</button>s
+                        <button onClick={this.deleteVisitor(visitor._id)} className="btn btn-danger pull-xs-right">Delete</button>
                         <button className="btn btn-primary pull-xs-right" onClick={this.handleClick(visitor._id)}>{this.state.isToggleOn ? 'Open' : 'Close'}</button>
                     </li>
                 );
