@@ -3,20 +3,23 @@ import cv2
 import time
 from threading import Thread
 import RPi.GPIO as GPIO
-import os
 import collect
+import visit
+import os
 from pymongo import MongoClient
-import recognition
-import face_recognition
-from bson.objectid import ObjectId
-import log
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(27, GPIO.OUT)
 
+'''
 # Camera stream
+This class is to manage all matters related to stream of usb camera. We reads the camera and get frame in the infinite loop.
+If web browser opens, we would send the frame to web browser through web socket.
+If you click 'make photo' button which is for collecting visitor's face, we would make folder named visitor's id for saving the frame and send the frame which is a visitor's face to collect.py.
+If visitor pushes a button, we would send the frame which is a visitor's face to visit.py
+'''
 
 class Stream(Thread):
 	
@@ -25,7 +28,6 @@ class Stream(Thread):
 		self.capture_flag = [False]
 		#self.ws = ws
 		self.clients = []
-		self.foldername = []
 		Thread.__init__(self, name=Stream.__name__)
 		
 	def run(self):
@@ -38,8 +40,9 @@ class Stream(Thread):
 		db = mongo_db.smartbell.visitors		
 		
 		while True:
+			# Read camera and get frame
 			rval, frame = self.camera.read()
-			
+		
 			if frame is None:
 				self.camera.release()
 				self.camera = cv2.VideoCapture(0)
@@ -52,34 +55,29 @@ class Stream(Thread):
 				for client in self.clients:
 					client.write_message(encode_string)
 			
-			# Push physical button, visitor pushes button
+			# A visitor pushes button
 			but = GPIO.input(17)
 			if(not prev_input and but):
-				print(but)
+				# It affects dlib speed. If frame size is small, dlib would be faster than normal size frame
 				small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
-				if len(face_recognition.face_locations(small_frame)) == 0:
-					print("Cannot detect face. Try again")
-				else:
-					__id = recognition.face_comparison(small_frame)
-					log.save_log(__id)
-
+				visit.visit(small_frame)
 			prev_input = but
 			time.sleep(0.05)
 			
 			# Click makephotos on web browser
 			if self.capture_flag[0] == True:
 				visitors = db.find_one(sort=[('_id',-1)])
-				__id = visitors['_id']
+				__id = visitors['_id']	
 				path = 'pics/' + str(__id)
 				if not os.path.exists(path):
 					os.makedirs(path)
-			
-				file_name = '/img0.jpg'
-				enough_image = False
+				enough_image = collect.collect_picture(frame, path, '/img0.jpg', __id)
 				while enough_image == False:
+					print("loop enter")
 					success, capture_img = self.camera.read()
-					enough_image = collect.collect_picture(capture_img, path, file_name, __id)
+					enough_image = collect.collect_picture(capture_img, path, '/img0.jpg', __id)
 				print("Success to register")
+				
 				self.capture_flag[0] = False
 	
 		self.camera.release()

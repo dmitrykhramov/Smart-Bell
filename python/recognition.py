@@ -5,9 +5,13 @@ import time
 import cv2
 import pickle
 
-# Check whether visitor's face is registered or not
-# Compare registered faces and visitor's face
-# This can make us to recognize the face
+'''
+This function is to recognize whether visitor's face is registered or not.
+First, we reads file which has encoding data of registered faces.
+we detects visitor's face and encoding that part.
+we compares to encoding data of registered faces and encoding data of visitor's face.
+Then, if visitor is registered, we would return visitor's id, or if not, it would return 0. 
+'''
 
 def face_comparison(visitor_face):
 	
@@ -26,25 +30,25 @@ def face_comparison(visitor_face):
 	face_locations = []
 	face_encodings = []
 	
-	# Encode visitor's face
+	# Detect visitor's face
 	face_locations = face_recognition.face_locations(visitor_face)
+	# Encode detected face
 	face_encodings = face_recognition.face_encodings(visitor_face, face_locations)
 	
-	# Compare known faces and unkown face
 	for i in range(len(image_face_encoding)):
 		for face_encoding in face_encodings:
-			if len(image_face_encoding) == 2 and len(image_face_encoding[0]) == 1:
+			# Exception : If there is registered face, the encoding data shape would be different between other cases. It's like (2,1).
+			if (len(image_face_encoding) == 2 and len(image_face_encoding[0]) == 1):
 				ret, encoding_data = image_face_encoding
-				match = face_recognition.compare_faces([encoding_data], face_encoding)
+			# If there are more than 2 registered faces, the encoding data shape would be like (2,2), (3,2), (4,2), etc. 
 			else:	
 				ret, encoding_data = image_face_encoding[i]
-				match = face_recognition.compare_faces([encoding_data], face_encoding)
+			# Compare registered faces and visitor's face 
+			match = face_recognition.compare_faces([encoding_data], face_encoding)
 			# If visitor's face is registered
 			if match[0].all() == True:
 				__id = ret
 		if __id != 0:
 			print(time.time()-s_time)
 			break
-
 	return __id
-

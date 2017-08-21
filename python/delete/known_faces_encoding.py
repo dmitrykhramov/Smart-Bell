@@ -10,14 +10,15 @@ from bson.objectid import ObjectId
 #import delete
 #import RPi.GPIO as GPIO
 
-log_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-print(log_time)
-
+with open('../faces_encodings.txt','w') as f:
+	a = pickle.load(f)
+	print(f)
 '''
 with open('faces_encodings.txt','r') as wf:
 	a = pickle.load(wf)
-	print(a)
-	print(np.shape(a))
+	b,c = a[0]
+	print(c)
+	
 	
 with open('faces_encodings.txt','w'):
 	pass
