@@ -9,14 +9,12 @@ from pymongo import MongoClient
 import recognition
 import face_recognition
 from bson.objectid import ObjectId
+import log
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(27, GPIO.OUT)
-#GPIO.setup(24, GPIO.OUT) # LED for close
-#GPIO.output(23, GPIO.LOW)
-#GPIO.output(24, GPIO.LOW)
 
 # Camera stream
 
@@ -63,27 +61,7 @@ class Stream(Thread):
 					print("Cannot detect face. Try again")
 				else:
 					__id = recognition.face_comparison(small_frame)
-					if __id == 0:
-						print("Does not register")
-						for n in range(5):
-								GPIO.output(27,True)
-								time.sleep(1)
-								GPIO.output(27,False)
-					else:
-						print("I see someone id {}!".format(__id))
-						valid = db.find_one({"_id": ObjectId(__id[0])})
-						
-						if valid['access']:
-							print("Available face, open")
-							GPIO.output(27,True)
-							time.sleep(5)
-							GPIO.output(27,False)
-						else:
-							print("No permission, closed")
-							for n in range(5):
-								GPIO.output(27,True)
-								time.sleep(1)
-								GPIO.output(27,False)
+					log.save_log(__id)
 
 			prev_input = but
 			time.sleep(0.05)

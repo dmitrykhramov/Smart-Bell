@@ -35,8 +35,6 @@ def face_comparison(visitor_face):
 		for face_encoding in face_encodings:
 			if len(image_face_encoding) == 2 and len(image_face_encoding[0]) == 1:
 				ret, encoding_data = image_face_encoding
-				print(encoding_data)
-				print([encoding_data])
 				match = face_recognition.compare_faces([encoding_data], face_encoding)
 			else:	
 				ret, encoding_data = image_face_encoding[i]

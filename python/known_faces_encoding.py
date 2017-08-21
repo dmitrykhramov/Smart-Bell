@@ -1,18 +1,27 @@
-import face_recognition
+#import face_recognition
 import numpy as np
+import datetime
 from pymongo import MongoClient
-import time
-import cv2
+#import time
+#import cv2
 import pickle
-import os
+#import os
 from bson.objectid import ObjectId
-import delete
-import RPi.GPIO as GPIO
+#import delete
+#import RPi.GPIO as GPIO
 
+log_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+print(log_time)
+
+'''
+with open('faces_encodings.txt','r') as wf:
+	a = pickle.load(wf)
+	print(a)
+	print(np.shape(a))
+	
 with open('faces_encodings.txt','w'):
 	pass
-	
-'''
+
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(23, GPIO.OUT)
 

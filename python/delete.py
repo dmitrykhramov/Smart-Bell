@@ -34,9 +34,6 @@ def delete_face(visitor_id):
 				with open('faces_encodings.txt','w') as wf:
 					pickle.dump(known_faces_encoding, wf)
 	
-	if delete_flag == False:
-		print("Cannot find such id")
-	
 	return delete_flag
 
 			
