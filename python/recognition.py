@@ -40,11 +40,14 @@ def face_comparison(visitor_face):
 			# Exception : If there is registered face, the encoding data shape would be different between other cases. It's like (2,1).
 			if (len(image_face_encoding) == 2 and len(image_face_encoding[0]) == 1):
 				ret, encoding_data = image_face_encoding
+				# Compare registered faces and visitor's face 
+				match = face_recognition.compare_faces([encoding_data], face_encoding)
 			# If there are more than 2 registered faces, the encoding data shape would be like (2,2), (3,2), (4,2), etc. 
 			else:	
 				ret, encoding_data = image_face_encoding[i]
-			# Compare registered faces and visitor's face 
-			match = face_recognition.compare_faces([encoding_data], face_encoding)
+				# Compare registered faces and visitor's face 
+				match = face_recognition.compare_faces([encoding_data], face_encoding)
+			
 			# If visitor's face is registered
 			if match[0].all() == True:
 				__id = ret

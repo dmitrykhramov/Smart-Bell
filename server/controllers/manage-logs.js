@@ -6,7 +6,7 @@ exports.addLog = function(req, res, next) {
 
     const log = new Log({
         firstname: firstname,
-        lastname: lastname
+        lastname: lastname,
     });
 
     log.save(function(err) {
@@ -18,6 +18,7 @@ exports.addLog = function(req, res, next) {
 
 exports.getLogs = function (req, res, next) {
     Log.find().sort({'_id': -1}).then((logs) => {
+		console.log(logs);
         res.send({logs});
     }, (e) => {
         res.status(400).send(e);

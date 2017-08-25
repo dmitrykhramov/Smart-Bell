@@ -8,7 +8,10 @@ var Log = mongoose.model('log', {
     lastname: {
         type: String,
         required: true
-    }
+    },
+    time: {
+		type: String
+	}
 });
 
 module.exports = {Log};

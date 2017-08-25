@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 import RPi.GPIO as GPIO
-import datetime
+import pytz
+from datetime import datetime
 import time
 from bson.objectid import ObjectId
 
@@ -9,7 +10,9 @@ GPIO.setwarnings(False)
 GPIO.setup(27, GPIO.OUT)
 
 mongo_db = MongoClient('localhost',27017)
-db_log = mongo_db.smartbell.log
+db_log = mongo_db.smartbell.logs
+
+LOCAL_TZ = pytz.timezone('Europe/Helsinki')
 
 '''
 This function is to blink led when checking a permission to access
@@ -36,7 +39,7 @@ def permission_check(__id):
 	if valid['access']:
 		print("Available face, open")
 		led()
-		log_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+		log_time = datetime.now(pytz.utc).astimezone(LOCAL_TZ).strftime('%Y-%m-%d %H:%M:%S')
 		# Save the log
 		db_log.insert_one({"firstname":valid['firstname'], "lastname":valid['lastname'], "time":log_time})
 	else:
