@@ -10,10 +10,15 @@ from bson.objectid import ObjectId
 #import delete
 #import RPi.GPIO as GPIO
 
-with open('faces_encodings.txt','w') as f:
+with open('faces_encodings.txt','r') as f:
 	a = pickle.load(f)
-	print(f)
+	print(a)
+
 '''
+with open('faces_encodings.txt','w'):
+	pass
+
+
 with open('faces_encodings.txt','r') as wf:
 	a = pickle.load(wf)
 	b,c = a[0]

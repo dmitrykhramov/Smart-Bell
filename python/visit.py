@@ -1,7 +1,7 @@
 import recognition
 import log
 import face_recognition
-
+import log
 '''
 This function is to check whether the visitor is registered or not.
 First, we check whether the frame which is the visitor's face is enough to detect face or not.
@@ -23,8 +23,9 @@ def visit(frame):
 		__id = recognition.face_comparison(frame)
 		if __id == 0:
 			print("Does not register")
+			log.save_log("Unkown", "Unkown", frame)
 			for n in range(5):
 				log.led()
 		else:
 			print("I see someone id {}!".format(__id))
-			log.permission_check(__id)
+			log.permission_check(__id, frame)

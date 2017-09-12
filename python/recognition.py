@@ -54,4 +54,5 @@ def face_comparison(visitor_face):
 		if __id != 0:
 			print(time.time()-s_time)
 			break
+			
 	return __id

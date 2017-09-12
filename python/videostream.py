@@ -6,6 +6,7 @@ import RPi.GPIO as GPIO
 import collect
 import visit
 import os
+import save
 from pymongo import MongoClient
 
 GPIO.setmode(GPIO.BCM)
@@ -69,8 +70,7 @@ class Stream(Thread):
 				visitors = db.find_one(sort=[('_id',-1)])
 				__id = visitors['_id']	
 				path = 'pics/' + str(__id)
-				if not os.path.exists(path):
-					os.makedirs(path)
+				save.make_directory(path)
 				enough_image = collect.collect_picture(frame, path, '/img0.jpg', __id)
 				while enough_image == False:
 					print("loop enter")

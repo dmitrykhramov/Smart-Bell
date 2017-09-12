@@ -4,6 +4,7 @@ import face_recognition
 import dlib
 import pickle
 import os
+import save
 
 '''
 This function is to collect encoding face data.
@@ -31,8 +32,7 @@ def collect_picture(frame, folder_name, file_name, __id):
 	
 	else:
 		# Save the visitor's face as '.jpg'
-		file_name_path = folder_name + file_name
-		cv2.imwrite(file_name_path, frame)
+		save.save_photo(folder_name, file_name, frame)
 		
 		# Load the visitor's face which is saved as '.jpg'
 		image = face_recognition.load_image_file('pics/'+str(__id)+'/img0.jpg')
