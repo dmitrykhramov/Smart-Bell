@@ -23,7 +23,7 @@ def delete_face(visitor_id):
 	delete_flag = False
 	
 	# If only one visitor is registered at 'faces_encodings.txt', check id and just delete all
-	if (file_length == 2 and len(known_faces_encoding[0]) == 1) and (file_length == 1):
+	if (file_length == 2 and len(known_faces_encoding[0]) == 1) or (file_length == 1):
 		__id, encodings = known_faces_encoding
 		if __id == [ObjectId(visitor_id)]:
 			delete_flag = True
