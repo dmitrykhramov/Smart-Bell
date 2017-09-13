@@ -10,8 +10,10 @@ from bson.objectid import ObjectId
 #import delete
 #import RPi.GPIO as GPIO
 
-with open('faces_encodings.txt','w'):
-	pass
+with open('faces_encodings.txt','r') as f:
+	a = pickle.load(f)
+	print(a)
+
 
 '''
 with open('faces_encodings.txt','w'):
