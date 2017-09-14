@@ -5,16 +5,14 @@ import time
 import cv2
 import pickle
 
-'''
-This function is to recognize whether visitor's face is registered or not.
-First, we reads file which has encoding data of registered faces.
-we detects visitor's face and encoding that part.
-we compares to encoding data of registered faces and encoding data of visitor's face.
-Then, if visitor is registered, we would return visitor's id, or if not, it would return 0. 
-'''
-
 def face_comparison(visitor_face):
-	
+	'''
+	This function is to recognize whether visitor's face is registered or not.
+	First, we reads file which has encoding data of registered faces.
+	we detects visitor's face and encoding that part.
+	we compares to encoding data of registered faces and encoding data of visitor's face.
+	Then, if visitor is registered, we would return visitor's id, or if not, it would return 0. 
+	'''
 	__id = 0
 	
 	# Read the text file which known faces are encoded  

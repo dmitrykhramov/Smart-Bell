@@ -14,16 +14,14 @@ GPIO.setwarnings(False)
 GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(27, GPIO.OUT)
 
-'''
-# Camera stream
-This class is to manage all matters related to stream of usb camera. We reads the camera and get frame in the infinite loop.
-If web browser opens, we would send the frame to web browser through web socket.
-If you click 'make photo' button which is for collecting visitor's face, we would make folder named visitor's id for saving the frame and send the frame which is a visitor's face to collect.py.
-If visitor pushes a button, we would send the frame which is a visitor's face to visit.py
-'''
-
 class Stream(Thread):
-	
+	'''
+	# Camera stream
+	This class is to manage all matters related to stream of usb camera. We reads the camera and get frame in the infinite loop.
+	If web browser opens, we would send the frame to web browser through web socket.
+	If you click 'make photo' button which is for collecting visitor's face, we would make folder named visitor's id for saving the frame and send the frame which is a visitor's face to collect.py.
+	If visitor pushes a button, we would send the frame which is a visitor's face to visit.py
+	'''
 	def __init__(self):
 		self.flag = [False]
 		self.capture_flag = [False]

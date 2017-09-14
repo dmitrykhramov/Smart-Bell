@@ -2,17 +2,15 @@ from bson.objectid import ObjectId
 import pickle
 import numpy as np
 
-'''
-This function is to delete visitor.
-If you click delete button which is for deleting visitor, we would read 'faces_encodings.txt' which is registered data.
-And, check whether the visitor is deleted correctly.
-If not, we would returns delete_flag which is False.
-Or, we would find the data associated with the id and delete it at the registered data.
-Then, dump it and return delete_flag which is True.
-'''
-
 def delete_face(visitor_id):
-	
+	'''
+	This function is to delete visitor.
+	If you click delete button which is for deleting visitor, we would read 'faces_encodings.txt' which is registered data.
+	And, check whether the visitor is deleted correctly.
+	If not, we would returns delete_flag which is False.
+	Or, we would find the data associated with the id and delete it at the registered data.
+	Then, dump it and return delete_flag which is True.
+	'''
 	try:
 		# Load registered data
 		with open('faces_encodings.txt','r') as f:
