@@ -23,7 +23,7 @@ def visit(frame):
 		__id = recognition.face_comparison(frame)
 		if __id == 0:
 			print("Does not register")
-			log.save_log("Unkown", "Unkown", frame)
+			log.save_log("Unkown", "Visitor", frame, 0)
 			for n in range(5):
 				log.led()
 		else:

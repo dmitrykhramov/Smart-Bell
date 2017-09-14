@@ -13,9 +13,13 @@ Then, dump it and return delete_flag which is True.
 
 def delete_face(visitor_id):
 	
-	# Load registered data
-	with open('faces_encodings.txt','r') as f:
-		known_faces_encoding = pickle.load(f)
+	try:
+		# Load registered data
+		with open('faces_encodings.txt','r') as f:
+			known_faces_encoding = pickle.load(f)
+	except EOFError:
+		print("Failed to load faces_encodings.txt")
+		return 0
 		
 	file_length = len(known_faces_encoding)
 	

@@ -30,12 +30,17 @@ If the visitor doesn't have permission to access, we would close the door and le
 If the visitor has the permission, we would open the door and save the log which is about firstname, lastname and time, and led blinks once.
 '''
 
-def save_log(firstname, lastname, frame):
+def save_log(firstname, lastname, frame, __id):
 	
 	log_time = datetime.now(pytz.utc).astimezone(LOCAL_TZ).strftime('%Y-%m-%d %H:%M:%S')
-	path = 'log/' + str(log_time)
-	save.make_directory(path)
-	photo_path = save.save_photo(path, '/img0.jpg', frame)
+	
+	if __id == 0:
+		path = 'log/' + str(log_time)
+		save.make_directory(path)
+		photo_path = save.save_photo(path, '/img0.jpg', frame)
+		
+	else:
+		photo_path = 'pics/' + str(__id) + '/img0.jpg'
 	
 	# Save the log
 	db_log.insert_one({"firstname":firstname, "lastname":lastname, "time":log_time, "photopath": photo_path})
@@ -46,9 +51,10 @@ def permission_check(__id, frame):
 	try:
 		valid = db_visitors.find_one({"_id": ObjectId(__id[0])})
 	except EOFError:
+		#print("There is no person who has the id, "+str(__id[0])
 		return 0
 	
-	save_log(valid['firstname'], valid['lastname'], frame)
+	save_log(valid['firstname'], valid['lastname'], frame, valid['_id'])
 	
 	# If permission to access is true,
 	if valid['access']:

@@ -77,7 +77,6 @@ class Stream(Thread):
 					success, capture_img = self.camera.read()
 					enough_image = collect.collect_picture(capture_img, path, '/img0.jpg', __id)
 				print("Success to register")
-				
 				self.capture_flag[0] = False
 	
 		self.camera.release()

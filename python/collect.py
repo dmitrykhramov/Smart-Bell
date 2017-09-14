@@ -31,6 +31,7 @@ def collect_picture(frame, folder_name, file_name, __id):
 		return False
 	
 	else:
+		
 		# Save the visitor's face as '.jpg'
 		save.save_photo(folder_name, file_name, frame)
 		
@@ -57,5 +58,6 @@ def collect_picture(frame, folder_name, file_name, __id):
 			with open('faces_encodings.txt','wb') as f:
 				pickle.dump(known_faces_encoding_data, f)
 
-		print("face detection successes")
+		print("face detection successes")	
+		
 		return True
