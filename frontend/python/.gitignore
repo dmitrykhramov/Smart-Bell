@@ -11,4 +11,4 @@ python-stream/*.pyc
 *.pyc
 pics
 log
-
+known_faces_encoding.py
