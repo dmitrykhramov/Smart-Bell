@@ -32,9 +32,29 @@ class AddVisitor extends Component {
                         <input className="form-control" {...lastname} />
                         {lastname.touched && lastname.error && <div className="error">{lastname.error}</div>}
                     </fieldset>
+                    
+                    
                     <button action="submit" className="btn btn-primary">Add visitor</button>
                 </form>
+                <br />
+                
                 <button onClick={this.makePhoto} className="btn btn-primary">Make photo</button>
+                <form>
+                    <fieldset className="form-group">
+                        <label>Choose a photo from your PC:</label>
+                        <input type="file" 
+                            onChange={
+                                (e)=> {
+                                    e.preventDefault();
+                                    const files = [ ...e.target.files ];
+                                    const filePath = 
+                                    console.log(files);
+                                }
+                            } 
+                            className="form-control" {...photopath} />
+                    </fieldset>
+                    <button className="btn btn-primary">Save</button>
+                </form>
             </div>
         );
     }
