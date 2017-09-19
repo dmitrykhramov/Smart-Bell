@@ -4,6 +4,7 @@ import cv2
 import time
 from videostream import Stream
 from delete import delete_face
+import collect
 
 stream_thread = Stream()
 stream_thread.daemon = True
@@ -29,6 +30,13 @@ class SocketHandler(websocket.WebSocketHandler):
 			print("delete")
 			print(command[1])
 			print(delete_face(command[1]))
+		# here put upload something
+		#elif command[0] == "upload":
+		#	print("upload")
+		#	print(command[1])
+		#	print(command[2])
+		#	print(collect.encoding_picture(command[1],command[2])
+			
 	def on_close(self):
 		print("client disconnected")
 		stream_thread.change_socket_flag()

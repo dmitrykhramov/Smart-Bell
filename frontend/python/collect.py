@@ -6,6 +6,33 @@ import pickle
 import os
 import save
 
+def encoding_picture(picture_path, __id):
+	try:
+		image = face_recognition.load_image_file(picture_path)
+		small_image = cv2.resize(image, (0, 0), fx=0.25, fy=0.25)
+		# Encode the visitor's face
+		image_face_encoding = face_recognition.face_encodings(small_image)[0]
+		# Associate visitor's id and encoding data of visitor's face
+		data = [[__id],image_face_encoding]
+	
+		# Save the associated data
+		# If it's first time, just dump
+		if os.path.getsize('faces_encodings.txt') == 0:
+			with open('faces_encodings.txt','wb') as f:
+				pickle.dump(data,f)
+		else:
+			# Load the registered data
+			with open('faces_encodings.txt','rb') as f:
+				known_faces_encoding_data = pickle.load(f)
+			# Append [[visitor's id],[the encoding data of visitor's face]] to the registered data
+			known_faces_encoding_data = np.vstack((known_faces_encoding_data,data))
+			# Then, dump
+			with open('faces_encodings.txt','wb') as f:
+				pickle.dump(known_faces_encoding_data, f)
+		return True
+	except EOFError:
+		return False
+
 def collect_picture(frame, folder_name, file_name, __id):
 	'''
 	This function is to collect encoding face data.
@@ -34,28 +61,18 @@ def collect_picture(frame, folder_name, file_name, __id):
 		save.save_photo(folder_name, file_name, frame)
 		
 		# Load the visitor's face which is saved as '.jpg'
-		image = face_recognition.load_image_file('pics/'+str(__id)+'/img0.jpg')
-		small_image = cv2.resize(image, (0, 0), fx=0.25, fy=0.25)
+		#image = face_recognition.load_image_file('pics/'+str(__id)+'/img0.jpg')
+		#small_image = cv2.resize(image, (0, 0), fx=0.25, fy=0.25)
 		# Encode the visitor's face
-		image_face_encoding = face_recognition.face_encodings(small_image)[0]
+		#image_face_encoding = face_recognition.face_encodings(small_image)[0]
 		# Associate visitor's id and encoding data of visitor's face
-		data = [[__id],image_face_encoding]
+		#data = [[__id],image_face_encoding]
+		path = 'pics/'+str(__id)+'/img0.jpg'
+		result = encoding_picture(path, __id)
 		
-		# Save the associated data
-		# If it's first time, just dump
-		if os.path.getsize('faces_encodings.txt') == 0:
-			with open('faces_encodings.txt','wb') as f:
-				pickle.dump(data,f)
+		if result == True:
+			print("face detection successes")
+			return True
 		else:
-			# Load the registered data
-			with open('faces_encodings.txt','rb') as f:
-				known_faces_encoding_data = pickle.load(f)
-			# Append [[visitor's id],[the encoding data of visitor's face]] to the registered data
-			known_faces_encoding_data = np.vstack((known_faces_encoding_data,data))
-			# Then, dump
-			with open('faces_encodings.txt','wb') as f:
-				pickle.dump(known_faces_encoding_data, f)
-
-		print("face detection successes")	
-		
-		return True
+			print("Chcek picture path")
+			return False
