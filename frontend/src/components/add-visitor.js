@@ -39,9 +39,11 @@ class AddVisitor extends Component {
                 <br />
                 
                 <button onClick={this.makePhoto} className="btn btn-primary">Make photo</button>
-                <form>
+                <br />
+                <br />
+                <form method="post">
                     <fieldset className="form-group">
-                        <label>Choose a photo from your PC:</label>
+                        <label>Or Choose a photo from your PC:</label>
                         <input type="file" 
                             onChange={
                                 (e)=> {
@@ -51,7 +53,7 @@ class AddVisitor extends Component {
                                     console.log(files);
                                 }
                             } 
-                            className="form-control" {...photopath} />
+                            className="form-control" />
                     </fieldset>
                     <button className="btn btn-primary">Save</button>
                 </form>

@@ -18,9 +18,9 @@ class Log extends Component {
                         <a className="thumbnail col-sm-3" href={imgPath}>
                             <img alt={imgAlt} src={imgPath} />
                         </a>
-                        {log.firstname} {log.lastname} 
+                        Name: {log.firstname} {log.lastname}
                         <br />
-                        {log.time}
+                        Time: {log.time}
                     </div>
                 );
             });
