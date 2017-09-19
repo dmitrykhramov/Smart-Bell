@@ -10,6 +10,11 @@ stream_thread = Stream()
 stream_thread.daemon = True
 stream_thread.start()
 
+class EmailRequestHandler(web.RequestHandler):
+	def get(self):
+		print("Hello")
+		self.write("Good")
+		
 class SocketHandler(websocket.WebSocketHandler):
 	def check_origin(self, origin):
 		return True
@@ -46,7 +51,8 @@ class SocketHandler(websocket.WebSocketHandler):
 def main():
 	
 	app = web.Application([
-		(r'/ws',SocketHandler)
+		(r'/ws',SocketHandler),
+		(r'/lock',EmailRequestHandler)
 	])
 	app.listen(8000)
 	ioloop.IOLoop.instance().start()

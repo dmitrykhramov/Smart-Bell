@@ -60,7 +60,8 @@ def permission_check(__id, frame):
 	if valid['access']:
 		print("Available face, open")
 		led()
-		
+		#send_email(valid['email'])
+		send_email('thdmsdia@gmail.com')
 	else:
 		print("No permission, closed")
 		for n in range(5):

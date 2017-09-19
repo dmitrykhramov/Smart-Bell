@@ -69,12 +69,18 @@ class Stream(Thread):
 				__id = visitors['_id']	
 				path = 'pics/' + str(__id)
 				save.make_directory(path)
+
 				enough_image = collect.collect_picture(frame, path, '/img0.jpg', __id)
-				while enough_image == False:
-					print("loop enter")
-					success, capture_img = self.camera.read()
-					enough_image = collect.collect_picture(capture_img, path, '/img0.jpg', __id)
-				print("Success to register")
+
+				if enough_image == True:
+					register_status = "success"
+					print("Success to register")
+				else:
+					register_status = "fail"
+					print("Fail to register")
+				for client in self.clients:
+					client.write_message(register_status)
+
 				self.capture_flag[0] = False
 	
 		self.camera.release()

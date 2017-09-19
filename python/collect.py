@@ -30,6 +30,7 @@ def encoding_picture(picture_path, __id):
 			with open('faces_encodings.txt','wb') as f:
 				pickle.dump(known_faces_encoding_data, f)
 		return True
+		
 	except EOFError:
 		return False
 
@@ -60,19 +61,12 @@ def collect_picture(frame, folder_name, file_name, __id):
 		# Save the visitor's face as '.jpg'
 		save.save_photo(folder_name, file_name, frame)
 		
-		# Load the visitor's face which is saved as '.jpg'
-		#image = face_recognition.load_image_file('pics/'+str(__id)+'/img0.jpg')
-		#small_image = cv2.resize(image, (0, 0), fx=0.25, fy=0.25)
-		# Encode the visitor's face
-		#image_face_encoding = face_recognition.face_encodings(small_image)[0]
-		# Associate visitor's id and encoding data of visitor's face
-		#data = [[__id],image_face_encoding]
 		path = 'pics/'+str(__id)+'/img0.jpg'
 		result = encoding_picture(path, __id)
 		
 		if result == True:
 			print("face detection successes")
-			return True
 		else:
 			print("Chcek picture path")
-			return False
+			
+		return result

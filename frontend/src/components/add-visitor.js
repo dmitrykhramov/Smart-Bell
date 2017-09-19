@@ -15,8 +15,7 @@ class AddVisitor extends Component {
     makePhoto() {
         this.props.ws.send("photo;make");
     }
-//add upload photo function
-//ws.send("upload;path;id");
+
     render() {
         const { handleSubmit, fields: { firstname, lastname }} = this.props;
 
