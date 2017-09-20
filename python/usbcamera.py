@@ -12,8 +12,8 @@ stream_thread.start()
 
 class EmailRequestHandler(web.RequestHandler):
 	def get(self):
-		print("Hello")
-		self.write("Good")
+		print("Emergency! Lock the door")
+		self.write("Success to lock")
 		
 class SocketHandler(websocket.WebSocketHandler):
 	def check_origin(self, origin):
