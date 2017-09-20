@@ -6,7 +6,6 @@ class Visitor extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {isToggleOn: true};
         this.deleteVisitor = this.deleteVisitor.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
@@ -15,11 +14,12 @@ class Visitor extends Component {
         this.props.fetchVisitors();
     }
 
-    handleClick = (id) => e => {
-        this.props.toogleAccess(id, !this.state.isToggleOn);
-        this.setState(prevState => ({
-        	isToggleOn: !prevState.isToggleOn
-        }));
+    handleClick = (id, access) => e => {
+		if (access == true) {
+			this.props.toogleAccess(id, false);
+		} else {
+			this.props.toogleAccess(id, true);
+		}
     };
 
     deleteVisitor = (id) => e => {
@@ -31,11 +31,12 @@ class Visitor extends Component {
     renderVisitors() {
         if (this.props.visitors) {
             return this.props.visitors.map((visitor) => {
+				let id = visitor._id;
                 return (
-                    <li className="list-group-item" key={visitor._id}>
+                    <li className="list-group-item" key={id}>
                         {visitor.firstname} {visitor.lastname}
-                        <button onClick={this.deleteVisitor(visitor._id)} className="btn btn-danger pull-xs-right">Delete</button>
-                        <button className="btn btn-primary pull-xs-right" onClick={this.handleClick(visitor._id)}>{this.state.isToggleOn ? 'Open' : 'Close'}</button>
+                        <button onClick={this.deleteVisitor(id)} className="btn btn-danger pull-xs-right">Delete</button>
+                        <button className="btn btn-primary pull-xs-right" onClick={this.handleClick(id, visitor.access)}>{visitor.access == true ? 'Open' : 'Close'}</button>
                     </li>
                 );
             });
