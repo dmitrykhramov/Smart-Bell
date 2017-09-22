@@ -9,6 +9,9 @@ var Visitor = mongoose.model('visitor', {
         type: String,
         required: true
     },
+    email: {
+        type: String
+    },
     access: {
         type: Boolean,
         default: true
