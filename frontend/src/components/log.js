@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-var moment = require('moment');
 
 class Log extends Component {
 
@@ -12,12 +11,17 @@ class Log extends Component {
     renderLogs() {
         if (this.props.logs) {
             return this.props.logs.map((log) => {
-                let timestamp = log._id.toString().substring(0,8);
-                let time_utc =  new Date(parseInt(timestamp, 16) * 1000 );
+                const imgPath = `./python/${log.photopath}`;
+                const imgAlt = log.firstname + ' ' + log.lastname;
                 return (
-                    <li className="list-group-item" key={log._id}>
-                        {log.firstname} {log.lastname}
-                    </li>
+                    <div className="list-group-item" key={log._id}>
+                        <a className="thumbnail col-sm-3" href={imgPath}>
+                            <img alt={imgAlt} src={imgPath} />
+                        </a>
+                        Name: {log.firstname} {log.lastname}
+                        <br />
+                        Time: {log.time}
+                    </div>
                 );
             });
         }

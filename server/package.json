@@ -19,6 +19,7 @@
     "jwt-simple": "^0.5.1",
     "mongodb": "^2.2.29",
     "mongoose": "^4.11.1",
+    "mongoose-type-email": "^1.0.5",
     "morgan": "^1.8.2",
     "nodemon": "^1.11.0",
     "passport": "^0.3.2",

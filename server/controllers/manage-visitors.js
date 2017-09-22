@@ -4,14 +4,16 @@ const {ObjectID} = require('mongodb');
 exports.addVisitor = function(req, res, next) {
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
+    const email = req.body.email;
 
-    if (!firstname || !lastname) {
-        return res.status(422).send( {error: 'You must provide firstname and lastname'});
+    if (!firstname || !lastname || !email) {
+        return res.status(422).send( {error: 'You must provide firstname, lastname and email'});
     }
 
     const visitor = new Visitor({
         firstname: firstname,
-        lastname: lastname
+        lastname: lastname,
+        email: email
     });
 
     visitor.save(function(err) {
