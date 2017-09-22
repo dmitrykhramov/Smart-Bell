@@ -6,10 +6,22 @@ class AddVisitor extends Component {
     constructor(props) {
         super(props);
         this.makePhoto = this.makePhoto.bind(this);
+        this.state = {
+            classVisitorForm: "",
+            classMakePhotoForm: "displayNone",
+            addVisitorSucceed: 'false'
+        }
     }
-
+    handleHideOrShow(hideOrShow) {
+        this.setState({
+            classVisitorForm: "displayNone",
+            addVisitorSucceed: hideOrShow,
+            classMakePhotoForm: ""
+        })
+    }
     handleFormSubmit(formProps) {
         this.props.addVisitor(formProps);
+        this.handleHideOrShow('true')
     }
 
     makePhoto() {
@@ -17,11 +29,11 @@ class AddVisitor extends Component {
     }
 
     render() {
-        const { handleSubmit, fields: { firstname, lastname }} = this.props;
-
+        const { handleSubmit, fields: { firstname, lastname, email }} = this.props;
+        
         return (
             <div>
-                <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+                <form className={this.state.classVisitorForm + " fadeIn"} onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
                     <fieldset className="form-group">
                         <label>First name:</label>
                         <input className="form-control" {...firstname} />
@@ -32,9 +44,39 @@ class AddVisitor extends Component {
                         <input className="form-control" {...lastname} />
                         {lastname.touched && lastname.error && <div className="error">{lastname.error}</div>}
                     </fieldset>
+                    <fieldset className="form-group">
+                        <label>E-mail address:</label>
+                        <input type="email" className="form-control" {...email} />
+                        {email.touched && email.error && <div className="error">{email.error}</div>}
+                    </fieldset>
+                    
+                    
                     <button action="submit" className="btn btn-primary">Add visitor</button>
                 </form>
-                <button onClick={this.makePhoto} className="btn btn-primary">Make photo</button>
+                <br />
+                <div className={this.state.classMakePhotoForm + " fadeIn"}>
+                    <p>Basic information is saved.</p>
+                    <p>Please save your photo via either 'Make photo' or 'File upload'</p>
+                    <button onClick={this.makePhoto} className="btn btn-primary">Make photo</button>
+                    <br />
+                    <form  method="post">
+                        <fieldset className="form-group">
+                            <label>Or Choose a photo from your PC:</label>
+                            <input type="file" 
+                                onChange={
+                                    (e)=> {
+                                        e.preventDefault();
+                                        const files = [ ...e.target.files ];
+                                        const filePath = 
+                                        console.log(files);
+                                    }
+                                } 
+                                className="form-control" />
+                        </fieldset>
+                        <button className="btn btn-primary">Save</button>
+                    </form>
+                </div>
+                
             </div>
         );
     }
@@ -50,7 +92,9 @@ function validate(formProps) {
     if (!formProps.lastname) {
         errors.lastname = 'Please enter lastname';
     }
-
+    if (!formProps.email) {
+        errors.email = 'Please enter email';
+    }
     return errors;
 }
 
@@ -61,6 +105,6 @@ function mapStateToProps(state) {
 
 export default reduxForm({
     form: 'add-visitor',
-    fields: ['firstname', 'lastname'],
+    fields: ['firstname', 'lastname', 'email'],
     validate
 }, mapStateToProps, actions)(AddVisitor);

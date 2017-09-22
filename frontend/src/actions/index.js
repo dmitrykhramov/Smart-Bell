@@ -92,9 +92,9 @@ export function fetchVisitors() {
     }
 }
 
-export function addVisitor({ firstname, lastname }) {
+export function addVisitor({ firstname, lastname, email }) {
     return function(dispatch) {
-        axios.post(`${ROOT_URL}/add_visitor`, {firstname, lastname})
+        axios.post(`${ROOT_URL}/add_visitor`, {firstname, lastname, email})
             .then(response => {
                 console.log("Visitor added");
             })

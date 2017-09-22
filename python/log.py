@@ -60,8 +60,9 @@ def permission_check(__id, frame):
 	
 	# If permission to access is true,
 	if valid['access']:
-		print("Available face, open")
-		#send_email(valid['email'],valid['firstname'],valid['lastname'],log_time)
+		print("Available face")
+		print(valid['email'])
+		send_email.email(valid['email'],valid['firstname'],valid['lastname'],log_time)
 		led()
 		
 	else:

@@ -27,7 +27,7 @@ class Stream extends Component {
 			var bytes = new Uint8Array(buffer);
 			for(var i=0; i<len; i++)
 				bytes[i]  = decoding.charCodeAt(i);
-			var url = encode(decoding);
+			var url = encode(bytes);
 			this.setState({url: url});   
         };
 	}
