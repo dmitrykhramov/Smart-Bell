@@ -21,10 +21,17 @@ class Log extends Component {
     renderLogs() {
         if (this.props.logs) {
             return this.props.logs.map((log) => {
+                const imgPath = `./python/${log.photopath}`;
+                const imgAlt = log.firstname + ' ' + log.lastname;
                 return (
-                    <li className="list-group-item" key={log._id}>
-                        {log.firstname} {log.lastname} {log.time}
-                    </li>
+                    <div className="list-group-item" key={log._id}>
+                        <a className="thumbnail col-sm-3" href={imgPath}>
+                            <img alt={imgAlt} src={imgPath} />
+                        </a>
+                        Name: {log.firstname} {log.lastname}
+                        <br />
+                        Time: {log.time}
+                    </div>
                 );
             });
         }
