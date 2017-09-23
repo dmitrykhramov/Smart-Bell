@@ -10,6 +10,11 @@ stream_thread = Stream()
 stream_thread.daemon = True
 stream_thread.start()
 
+class EmailRequestHandler(web.RequestHandler):
+	def get(self):
+		print("Emergency! Lock the door")
+		self.write("Success to lock")
+		
 class SocketHandler(websocket.WebSocketHandler):
 	def check_origin(self, origin):
 		return True
@@ -21,22 +26,17 @@ class SocketHandler(websocket.WebSocketHandler):
 		
 		
 	def on_message(self, message):
-		command = message.split(';')
-		print(command[0])
-		if command[0] == "photo":
+		if message == "photo_make":
 			print("photo")
 			stream_thread.change_capture_flag()
-		elif command[0] == "delete":
-			print("delete")
-			print(command[1])
-			print(delete_face(command[1]))
-		# here put upload something
-		#elif command[0] == "upload":
-		#	print("upload")
-		#	print(command[1])
-		#	print(command[2])
-		#	print(collect.encoding_picture(command[1],command[2])
+		elif message == "photo_upload":
+			print("upload")
+			self.write(collect.upload_photo())
 			
+		else:
+			print("delete")
+			print(delete_face(message))
+		
 	def on_close(self):
 		print("client disconnected")
 		stream_thread.change_socket_flag()
@@ -46,7 +46,8 @@ class SocketHandler(websocket.WebSocketHandler):
 def main():
 	
 	app = web.Application([
-		(r'/ws',SocketHandler)
+		(r'/ws',SocketHandler),
+		(r'/lock',EmailRequestHandler)
 	])
 	app.listen(8000)
 	ioloop.IOLoop.instance().start()

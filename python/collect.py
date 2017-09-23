@@ -5,6 +5,12 @@ import dlib
 import pickle
 import os
 import save
+from pymongo import MongoClient
+
+mongo_db = MongoClient('localhost',27017)
+db = mongo_db.smartbell.visitors
+visitors = db.find_one(sort=[('_id',-1)])
+
 
 def encoding_picture(picture_path, __id):
 	try:
@@ -28,12 +34,16 @@ def encoding_picture(picture_path, __id):
 			known_faces_encoding_data = np.vstack((known_faces_encoding_data,data))
 			# Then, dump
 			with open('faces_encodings.txt','wb') as f:
-				pickle.dump(known_faces_encoding_data, f)
-		return True
+				pickle.dump(known_faces_encoding_data, f)		
+		return "success"
+		
 	except EOFError:
-		return False
-
-def collect_picture(frame, folder_name, file_name, __id):
+		return "fail"
+		
+def upload_photo():
+	return encoding_picture('pics/'+str(visitors['_id'])+'img0.jpg',visitors['_id'])
+	
+def make_photo(frame):
 	'''
 	This function is to collect encoding face data.
 	we detects face in the frame and check whether the frame is enough to detect face or not.
@@ -45,6 +55,9 @@ def collect_picture(frame, folder_name, file_name, __id):
 	If it's first time to dump, just dump it.
 	If not, load 'faces_encodings.txt', append it to registered data, then dump.
 	'''
+	path = 'pics/' + str(visitors['_id'])
+	save.make_directory(path)
+
 	# It affects dlib speed. If frame size is small, dlib would be faster than normal size frame
 	small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 	# Detect face in the frame
@@ -53,26 +66,18 @@ def collect_picture(frame, folder_name, file_name, __id):
 	# If not detect face
 	if len(face_locations) == 0:
 		print("face detection fails")
-		return False
+		return "fail"
 	
 	else:
-		
 		# Save the visitor's face as '.jpg'
-		save.save_photo(folder_name, file_name, frame)
+		save.save_photo(path, 'img0.jpg', frame)
 		
-		# Load the visitor's face which is saved as '.jpg'
-		#image = face_recognition.load_image_file('pics/'+str(__id)+'/img0.jpg')
-		#small_image = cv2.resize(image, (0, 0), fx=0.25, fy=0.25)
-		# Encode the visitor's face
-		#image_face_encoding = face_recognition.face_encodings(small_image)[0]
-		# Associate visitor's id and encoding data of visitor's face
-		#data = [[__id],image_face_encoding]
-		path = 'pics/'+str(__id)+'/img0.jpg'
-		result = encoding_picture(path, __id)
+		path = 'pics/'+str(visitors['_id'])+'/img0.jpg'
+		result = encoding_picture(path, visitors['_id'])
 		
-		if result == True:
-			print("face detection successes")
-			return True
+		if result == "success":
+			print("Success to register")
 		else:
 			print("Chcek picture path")
-			return False
+			
+		return result
