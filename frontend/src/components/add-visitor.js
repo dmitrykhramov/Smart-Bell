@@ -22,6 +22,7 @@ class AddVisitor extends Component {
         });
     }
 
+/*
     componentDidMount() {
         if (this.props.ws) {
             this.props.ws.onmessage = msg => {
@@ -35,7 +36,7 @@ class AddVisitor extends Component {
             };
         }
     }
-
+*/
     componentWIllUpdate() {
         if (this.props.photoUpload == 'success') {
             this.props.ws.send("photo_upload");

@@ -2,8 +2,10 @@ from pymongo import MongoClient
 import RPi.GPIO as GPIO
 from bson.objectid import ObjectId
 import time
-import save
 import send_email
+import cv2
+import base64
+
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(27, GPIO.OUT)
@@ -28,19 +30,16 @@ def save_log(firstname, lastname, frame, __id, log_time, access):
 	If the visitor doesn't have permission to access, we would close the door and led blinks 5 times.
 	If the visitor has the permission, we would open the door and save the log which is about firstname, lastname and time, and led blinks once.
 	'''
-	if __id == 0:
-		path = 'log'
-		save.make_directory(path)
-		photo_path = save.save_photo(path, '/'+str(log_time)+'.jpg', frame)
-		
-	else:
-		photo_path = 'pics/' + str(__id) + '/img0.jpg'
+	
+	flag, jpeg = cv2.imencode('.jpg', frame)
+	encoding_frame = base64.b64encode(jpeg)
+	
 	if access == True:
 		access_log = "allowed"
 	else:
 		access_log = "denied"
 	# Save the log
-	db_log.insert_one({"firstname":firstname, "lastname":lastname, "time":log_time, "photopath": photo_path, "access":access_log})
+	db_log.insert_one({"firstname":firstname, "lastname":lastname, "time":log_time, "photo": encoding_frame, "access":access_log})
 	return log_time
 
 def permission_check(__id, frame,log_time):

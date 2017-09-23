@@ -11,8 +11,7 @@ class Stream extends Component {
 
     // Setting up websocket client connection
     componentWillMount() {
-        // this.ws = new WebSocket("ws://localhost:8000/ws");
-        this.ws = new WebSocket("ws://192.168.0.99:8000/ws");
+        this.ws = new WebSocket("ws://localhost:8000/ws");
         this.ws.onopen = () => {
             this.ws.binaryType = "arraybuffer";
             this.props.addSocketToState(this.ws);
@@ -22,16 +21,15 @@ class Stream extends Component {
     
     componentDidMount() {
 		this.ws.onmessage = msg => {
-            if (typeof msg.data === 'object') {
+            if (typeof msg.data === 'string') {
                 var decoding = atob(msg.data); // decode a string of data from python which has been encoded using base64 encoding
                 var len = decoding.length;
                 var buffer = new ArrayBuffer(len);
                 var bytes = new Uint8Array(buffer);
                 for(var i=0; i<len; i++)
                     bytes[i]  = decoding.charCodeAt(i);
-                var url = encode(decoding);
+                var url = encode(bytes);
                 this.setState({url: url});
-                console.log("image");
             }
         };
 	}

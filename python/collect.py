@@ -9,7 +9,7 @@ from pymongo import MongoClient
 
 mongo_db = MongoClient('localhost',27017)
 db = mongo_db.smartbell.visitors
-visitors = db.find_one(sort=[('_id',-1)])
+
 
 
 def encoding_picture(picture_path, __id):
@@ -41,7 +41,11 @@ def encoding_picture(picture_path, __id):
 		return "fail"
 		
 def upload_photo():
-	return encoding_picture('pics/'+str(visitors['_id'])+'img0.jpg',visitors['_id'])
+	
+	save.make_directory('pics/upload')
+	visitors = db.find_one(sort=[('_id',-1)])
+	
+	return encoding_picture('pics/upload/img0.jpg', visitors['_id'])
 	
 def make_photo(frame):
 	'''
@@ -55,9 +59,9 @@ def make_photo(frame):
 	If it's first time to dump, just dump it.
 	If not, load 'faces_encodings.txt', append it to registered data, then dump.
 	'''
-	path = 'pics/' + str(visitors['_id'])
-	save.make_directory(path)
-
+	save.make_directory('pics')
+	visitors = db.find_one(sort=[('_id',-1)])
+	
 	# It affects dlib speed. If frame size is small, dlib would be faster than normal size frame
 	small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 	# Detect face in the frame
@@ -69,10 +73,9 @@ def make_photo(frame):
 		return "fail"
 	
 	else:
+		path = 'pics/img0.jpg'
 		# Save the visitor's face as '.jpg'
-		save.save_photo(path, 'img0.jpg', frame)
-		
-		path = 'pics/'+str(visitors['_id'])+'/img0.jpg'
+		save.save_photo(path, frame)
 		result = encoding_picture(path, visitors['_id'])
 		
 		if result == "success":
