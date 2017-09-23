@@ -25,7 +25,7 @@ class Visitor extends Component {
     deleteVisitor = (id) => e => {
         this.props.deleteVisitor(id);
         this.props.fetchVisitors();
-        this.props.ws.send("delete;" + id);
+        this.props.ws.send(id);
     };
 
     renderVisitors() {
@@ -55,7 +55,7 @@ class Visitor extends Component {
 }
 
 function mapStateToProps(state) {
-    return { visitors: state.bell.visitors, ws: state.bell.socket };
+    return { visitors: state.bell.visitors, ws: state.bell.socket, deleteFlag: state.bell.visitor_delete };
 }
 
 export default connect(mapStateToProps, actions)(Visitor);

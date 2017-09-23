@@ -21,20 +21,18 @@ class Stream extends Component {
     
     componentDidMount() {
 		this.ws.onmessage = msg => {
-			var decoding = atob(msg.data); // decode a string of data from python which has been encoded using base64 encoding
-			var len = decoding.length;
-			var buffer = new ArrayBuffer(len);
-			var bytes = new Uint8Array(buffer);
-			for(var i=0; i<len; i++)
-				bytes[i]  = decoding.charCodeAt(i);
-			var url = encode(decoding);
-			this.setState({url: url});   
+            if (typeof msg.data === 'object') {
+                var decoding = atob(msg.data); // decode a string of data from python which has been encoded using base64 encoding
+                var len = decoding.length;
+                var buffer = new ArrayBuffer(len);
+                var bytes = new Uint8Array(buffer);
+                for(var i=0; i<len; i++)
+                    bytes[i]  = decoding.charCodeAt(i);
+                var url = encode(decoding);
+                this.setState({url: url});
+            }
         };
 	}
-
-    componentWillUnmount() {
-        this.ws.close();
-    }
 
     render() {
         return (

@@ -1,6 +1,7 @@
 const Authentication = require('./controllers/authentication');
 const ManageVisitors = require('./controllers/manage-visitors');
 const ManageLogs = require('./controllers/manage-logs');
+const ManagePhoto = require('./controllers/manage-photo-upload');
 const passportService = require('./services/passport');
 const passport = require('passport');
 
@@ -16,5 +17,6 @@ module.exports = function(app) {
     app.patch('/toogle/:id/:value', ManageVisitors.toogleAccess);
     app.get('/logs', ManageLogs.getLogs);
     app.post('/logpost', ManageLogs.addLog);
+    app.post('/photo', ManagePhoto.photoUpload);
 };
 

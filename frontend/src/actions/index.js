@@ -6,7 +6,13 @@ import {
     AUTH_ERROR,
     FETCH_LOGS,
     FETCH_VISITORS,
-    SOCKET_STATE
+    SOCKET_STATE,
+    UPLOAD_DOCUMENT_SUCCESS,
+    UPLOAD_DOCUMENT_FAIL,
+    VISITOR_ADD_FAIL,
+    VISITOR_ADD_SUCCESS,
+    VISITOR_DELETE_FAIL,
+    VISITOR_DELETE_SUCCESS
 } from './types.js';
 
 const ROOT_URL = 'http://localhost:3090';
@@ -96,9 +102,17 @@ export function addVisitor({ firstname, lastname }) {
     return function(dispatch) {
         axios.post(`${ROOT_URL}/add_visitor`, {firstname, lastname})
             .then(response => {
+                dispatch({
+                    type: VISITOR_ADD_SUCCESS,
+                    payload: 'success'
+                });
                 console.log("Visitor added");
             })
             .catch(response => {
+                dispatch({
+                    type: VISITOR_ADD_FAIL,
+                    payload: 'fail'
+                });
                 console.log("Can't add a visitor");
             });
     }
@@ -110,11 +124,18 @@ export function deleteVisitor(id) {
             headers: { authorization: localStorage.getItem('token') }
         })
             .then(response => {
+                dispatch({
+                    type: VISITOR_DELETE_SUCCESS,
+                    payload: 'success'
+                });
                 console.log("Visitor deleted");
             })
             .catch(response => {
+                dispatch({
+                    type: VISITOR_DELETE_FAIL,
+                    payload: 'fail'
+                });
                 console.log("Can't delete a visitor");
-                console.log(response);
             });
     }
 }
@@ -137,6 +158,16 @@ export function addSocketToState(ws) {
     return {
         type: SOCKET_STATE,
         payload: ws
+    };
+}
+
+export function uploadDocument({ file }) {
+    let data = new FormData();
+    data.append('file', file);
+    return (dispatch) => {
+        axios.post(`${ROOT_URL}/photo`, data)
+            .then(response => dispatch({type: UPLOAD_DOCUMENT_SUCCESS, payload: 'success'}))
+                .catch(error => dispatch({type: UPLOAD_DOCUMENT_FAIL, payload: 'fail'}));
     };
 }
 

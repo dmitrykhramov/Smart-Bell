@@ -8,6 +8,16 @@ class Log extends Component {
         this.props.fetchLogs();
     }
 
+    componentDidMount() {
+        this.props.ws.onmessage = msg => {
+            if (typeof msg.data === "string") {
+                if (msg.data == 'log') {
+                    this.props.fetchLogs();
+                }
+            }
+        };
+    }
+
     renderLogs() {
         if (this.props.logs) {
             return this.props.logs.map((log) => {
@@ -21,7 +31,6 @@ class Log extends Component {
     }
 
     render() {
-
         return (
             <div>
                 <ul className="list-group">
@@ -33,7 +42,7 @@ class Log extends Component {
 }
 
 function mapStateToProps(state) {
-    return { logs: state.bell.logs };
+    return { logs: state.bell.logs, ws: state.bell.socket };
 }
 
 export default connect(mapStateToProps, actions)(Log);
