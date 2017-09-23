@@ -12,7 +12,7 @@ class AddVisitor extends Component {
             addVisitorSucceed: 'false'
         };
     }
-
+    
     componentWillUnmount() {
         this.props.resetAddForm();
     }
@@ -37,7 +37,7 @@ class AddVisitor extends Component {
     handleFileUpload = e => {
         this.props.uploadDocument({
             file: e.target.files[0]
-        });
+        }, this.props.ws);
     };
 
     render() {

@@ -101,6 +101,7 @@ export function fetchVisitors() {
     }
 }
 
+
 export function addVisitor({firstname, lastname, email}) {
     return function (dispatch) {
         axios.post(`${ROOT_URL}/add_visitor`, {firstname, lastname, email})
@@ -164,12 +165,15 @@ export function addSocketToState(ws) {
     };
 }
 
-export function uploadDocument({file}) {
+export function uploadDocument({file}, ws) {
     let data = new FormData();
     data.append('file', file);
     return (dispatch) => {
         axios.post(`${ROOT_URL}/photo`, data)
-            .then(response => dispatch({type: UPLOAD_DOCUMENT_SUCCESS, payload: 'success'}))
+            .then(response => {
+				 dispatch({type: UPLOAD_DOCUMENT_SUCCESS, payload: 'success'});
+				 ws.send("photo_upload");
+			})
             .catch(error => dispatch({type: UPLOAD_DOCUMENT_FAIL, payload: 'fail'}));
     };
 }

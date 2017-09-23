@@ -70,14 +70,12 @@ class Stream(Thread):
 
 				enough_image = collect.make_photo(frame)
 
-				if enough_image == True:
-					register_status = "success"
+				if enough_image == "success":
 					print("Success to register")
 				else:
-					register_status = "fail"
 					print("Fail to register")
 				for client in self.clients:
-					client.write_message(register_status)
+					client.write_message(enough_image)
 
 				self.capture_flag[0] = False
 	
