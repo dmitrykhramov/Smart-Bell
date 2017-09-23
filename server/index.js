@@ -9,6 +9,7 @@ const app = express();
 
 // default to a 'localhost' configuration:
 let connection_string = '127.0.0.1:27017/smartbell';
+//let connection_string = '192.168.0.99:27017/smartbell';
 
 // DB Setup
 mongoose.connect('mongodb://'+ connection_string);

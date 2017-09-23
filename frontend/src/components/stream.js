@@ -11,7 +11,8 @@ class Stream extends Component {
 
     // Setting up websocket client connection
     componentWillMount() {
-        this.ws = new WebSocket("ws://localhost:8000/ws");
+        // this.ws = new WebSocket("ws://localhost:8000/ws");
+        this.ws = new WebSocket("ws://192.168.0.99:8000/ws");
         this.ws.onopen = () => {
             this.ws.binaryType = "arraybuffer";
             this.props.addSocketToState(this.ws);
@@ -30,6 +31,7 @@ class Stream extends Component {
                     bytes[i]  = decoding.charCodeAt(i);
                 var url = encode(decoding);
                 this.setState({url: url});
+                console.log("image");
             }
         };
 	}

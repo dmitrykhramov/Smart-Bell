@@ -23,21 +23,25 @@ class AddVisitor extends Component {
     }
 
     componentDidMount() {
-        this.props.ws.onmessage = msg => {
-            if (typeof msg.data === "string") {
-                if (msg.data == 'success') {
-                    this.setState({photo_accept: true});
-                } else if (msg.data == 'fail') {
-                    this.setState({photo_accept: false});
+        if (this.props.ws) {
+            this.props.ws.onmessage = msg => {
+                if (typeof msg.data === "string") {
+                    if (msg.data == 'success') {
+                        this.setState({photo_accept: true});
+                    } else if (msg.data == 'fail') {
+                        this.setState({photo_accept: false});
+                    }
                 }
-            }
-        };
+            };
+        }
     }
 
     componentWIllUpdate() {
         if (this.props.photoUpload == 'success') {
             this.props.ws.send("photo_upload");
+            console.log(this.props.photoUpload);
         }
+        console.log(this.state.photo_accept);
     }
 
     componentWillUnmount() {
@@ -84,31 +88,13 @@ class AddVisitor extends Component {
 
                     <button action="submit" className="btn btn-primary">Add visitor</button>
                 </form>
-
-                <button onClick={this.makePhoto} className="btn btn-primary">Make photo</button>
-                <input type="file" onChange={this.handleFileUpload} />
                 <br />
                 <div className={this.state.classMakePhotoForm + " fadeIn"}>
                     <p>Basic information is saved.</p>
                     <p>Please save your photo via either 'Make photo' or 'File upload'</p>
                     <button onClick={this.makePhoto} className="btn btn-primary">Make photo</button>
                     <br />
-                    <form  method="post">
-                        <fieldset className="form-group">
-                            <label>Or Choose a photo from your PC:</label>
-                            <input type="file"
-                                onChange={
-                                    (e)=> {
-                                        e.preventDefault();
-                                        const files = [ ...e.target.files ];
-                                        const filePath =
-                                        console.log(files);
-                                    }
-                                }
-                                className="form-control" />
-                        </fieldset>
-                        <button className="btn btn-primary">Save</button>
-                    </form>
+                    <input type="file" onChange={this.handleFileUpload} />
                 </div>
             </div>
         );
