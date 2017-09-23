@@ -29,5 +29,6 @@ def email(email_address, first_name, last_name, log_time):
 		server.sendmail(gmail_user, email_address, msg.as_string())
 		print("Success to send")
 		server.quit()
+		
 	except:  
 		print 'Something went wrong...'

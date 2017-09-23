@@ -6,8 +6,8 @@ import RPi.GPIO as GPIO
 import collect
 import visit
 import os
-import save
-from pymongo import MongoClient
+#import save
+#from pymongo import MongoClient
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -35,8 +35,8 @@ class Stream(Thread):
 		
 		prev_input = 1
 		
-		mongo_db = MongoClient('localhost',27017)
-		db = mongo_db.smartbell.visitors		
+		#mongo_db = MongoClient('localhost',27017)
+		#db = mongo_db.smartbell.visitors		
 		
 		while True:
 			# Read camera and get frame
@@ -60,17 +60,15 @@ class Stream(Thread):
 				# It affects dlib speed. If frame size is small, dlib would be faster than normal size frame
 				small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 				visit.visit(small_frame)
+				for client in self.clients:
+					client.write_message("log")
 			prev_input = but
 			time.sleep(0.05)
 			
 			# Click makephotos on web browser
 			if self.capture_flag[0] == True:
-				visitors = db.find_one(sort=[('_id',-1)])
-				__id = visitors['_id']	
-				path = 'pics/' + str(__id)
-				save.make_directory(path)
 
-				enough_image = collect.collect_picture(frame, path, '/img0.jpg', __id)
+				enough_image = collect.make_photo(frame)
 
 				if enough_image == True:
 					register_status = "success"
