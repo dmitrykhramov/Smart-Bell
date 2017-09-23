@@ -9,9 +9,12 @@ class AddVisitor extends Component {
         this.state = {
             classVisitorForm: "",
             classMakePhotoForm: "displayNone",
-            addVisitorSucceed: 'false',
-            photo_accept: ""
+            addVisitorSucceed: 'false'
         };
+    }
+
+    componentWillUnmount() {
+        this.props.resetAddForm();
     }
 
     handleHideOrShow(hideOrShow) {
@@ -20,32 +23,6 @@ class AddVisitor extends Component {
             addVisitorSucceed: hideOrShow,
             classMakePhotoForm: ""
         });
-    }
-
-    componentDidMount() {
-        if (this.props.ws) {
-            this.props.ws.onmessage = msg => {
-                if (typeof msg.data === "string") {
-                    if (msg.data == 'success') {
-                        this.setState({photo_accept: true});
-                    } else if (msg.data == 'fail') {
-                        this.setState({photo_accept: false});
-                    }
-                }
-            };
-        }
-    }
-
-    componentWIllUpdate() {
-        if (this.props.photoUpload == 'success') {
-            this.props.ws.send("photo_upload");
-            console.log(this.props.photoUpload);
-        }
-        console.log(this.state.photo_accept);
-    }
-
-    componentWillUnmount() {
-        this.setState({photo_accept: ""});
     }
 
     handleFormSubmit(formProps) {
@@ -84,8 +61,6 @@ class AddVisitor extends Component {
                         <input type="email" className="form-control" {...email} />
                         {email.touched && email.error && <div className="error">{email.error}</div>}
                     </fieldset>
-
-
                     <button action="submit" className="btn btn-primary">Add visitor</button>
                 </form>
                 <br />
@@ -120,7 +95,7 @@ function validate(formProps) {
 
 function mapStateToProps(state) {
     return { errorMessage: state.bell.error, ws: state.bell.socket, addFlag: state.bell.visitor_add,
-                photoUpload: state.bell.photo};
+                photoUpload: state.bell.photo_upload, photoMake: state.bell.photo_make };
 }
 
 export default reduxForm({
