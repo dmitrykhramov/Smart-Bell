@@ -3,7 +3,7 @@ const {Visitor} = require('../models/visitor');
 const fs = require('fs');
 
 const storage = multer.diskStorage({
-    destination: './tmp',
+    destination: '../python/pics/upload',
     filename: function (req, file, cb) {
         cb(null, 'img0.jpg');
     }
@@ -15,20 +15,7 @@ exports.photoUpload = function(req, res, next) {
         if (err) {
             res.status(404).send("Server problem, try later");
         }
-        Visitor.findOne().sort({'_id': -1}).then(visitor => {
-            let id = visitor._id;
-            let source = fs.createReadStream('./tmp/img0.jpg');
-            let dest = fs.createWriteStream("../python/pics/" + id + "/img0.jpg");
-            source.pipe(dest);
-            source.on('end', function() {
-                res.status(200).send("Photo uploaded");
-                console.log('replaced');
-            });
-            source.on('error', function(err) {
-                res.status(404).send("Upload error");
-                console.log('error');
-            });
-        });
+        res.status(200).send("Photo uploaded");
     });
 };
 

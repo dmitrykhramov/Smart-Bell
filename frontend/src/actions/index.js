@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { browserHistory } from 'react-router';
+import {browserHistory} from 'react-router';
 import {
     AUTH_USER,
     UNAUTH_USER,
@@ -12,19 +12,22 @@ import {
     VISITOR_ADD_FAIL,
     VISITOR_ADD_SUCCESS,
     VISITOR_DELETE_FAIL,
-    VISITOR_DELETE_SUCCESS
+    VISITOR_DELETE_SUCCESS,
+    MAKE_PHOTO_FAIL,
+    MAKE_PHOTO_SUCCESS,
+    RESET_ADD_FORM
 } from './types.js';
 
 const ROOT_URL = 'http://localhost:3090';
 
-export function signinUser( { email, password }) {
-    return function(dispatch) {
+export function signinUser({email, password}) {
+    return function (dispatch) {
         // Submit email/password to the server
-        axios.post(`${ROOT_URL}/signin`, { email, password})
+        axios.post(`${ROOT_URL}/signin`, {email, password})
             .then(response => {
                 // If request is good
                 // - update state to indicate user is authenticated
-                dispatch( { type: AUTH_USER });
+                dispatch({type: AUTH_USER});
                 // - save jwt token and id
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('id', response.data.id);
@@ -41,11 +44,11 @@ export function signinUser( { email, password }) {
     }
 }
 
-export function signupUser({ email, password }) {
-    return function(dispatch) {
-        axios.post(`${ROOT_URL}/signup`, { email, password})
+export function signupUser({email, password}) {
+    return function (dispatch) {
+        axios.post(`${ROOT_URL}/signup`, {email, password})
             .then(response => {
-                dispatch( { type: AUTH_USER });
+                dispatch({type: AUTH_USER});
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('id', response.data.id);
                 browserHistory.push('/');
@@ -67,13 +70,13 @@ export function signoutUser() {
     localStorage.removeItem('token');
     localStorage.removeItem('id');
 
-    return { type: UNAUTH_USER };
+    return {type: UNAUTH_USER};
 }
 
 export function fetchLogs() {
-    return function(dispatch) {
+    return function (dispatch) {
         axios.get(`${ROOT_URL}/logs`, {
-            headers: { authorization: localStorage.getItem('token') }
+            headers: {authorization: localStorage.getItem('token')}
         })
             .then(response => {
                 dispatch({
@@ -85,9 +88,9 @@ export function fetchLogs() {
 }
 
 export function fetchVisitors() {
-    return function(dispatch) {
+    return function (dispatch) {
         axios.get(`${ROOT_URL}/visitors`, {
-            headers: { authorization: localStorage.getItem('token') }
+            headers: {authorization: localStorage.getItem('token')}
         })
             .then(response => {
                 dispatch({
@@ -98,8 +101,9 @@ export function fetchVisitors() {
     }
 }
 
-export function addVisitor({ firstname, lastname, email }) {
-    return function(dispatch) {
+
+export function addVisitor({firstname, lastname, email}) {
+    return function (dispatch) {
         axios.post(`${ROOT_URL}/add_visitor`, {firstname, lastname, email})
             .then(response => {
                 dispatch({
@@ -119,9 +123,9 @@ export function addVisitor({ firstname, lastname, email }) {
 }
 
 export function deleteVisitor(id) {
-    return function(dispatch) {
+    return function (dispatch) {
         axios.delete(`${ROOT_URL}/delete/${id}`, {
-            headers: { authorization: localStorage.getItem('token') }
+            headers: {authorization: localStorage.getItem('token')}
         })
             .then(response => {
                 dispatch({
@@ -141,9 +145,9 @@ export function deleteVisitor(id) {
 }
 
 export function toogleAccess(id, value) {
-    return function(dispatch) {
+    return function (dispatch) {
         axios.patch(`${ROOT_URL}/toogle/${id}/${value}`, {
-            headers: { authorization: localStorage.getItem('token') }
+            headers: {authorization: localStorage.getItem('token')}
         })
             .then(response => {
                 console.log("Access changed");
@@ -161,14 +165,40 @@ export function addSocketToState(ws) {
     };
 }
 
-export function uploadDocument({ file }) {
+export function uploadDocument({file}) {
     let data = new FormData();
     data.append('file', file);
     return (dispatch) => {
         axios.post(`${ROOT_URL}/photo`, data)
             .then(response => dispatch({type: UPLOAD_DOCUMENT_SUCCESS, payload: 'success'}))
-                .catch(error => dispatch({type: UPLOAD_DOCUMENT_FAIL, payload: 'fail'}));
+            .catch(error => dispatch({type: UPLOAD_DOCUMENT_FAIL, payload: 'fail'}));
     };
 }
 
+export function photoMake(result) {
+    return function (dispatch) {
+        if (result == 'success') {
+            dispatch({
+                type: MAKE_PHOTO_SUCCESS,
+                payload: 'success'
+            });
+            console.log('Photo make success');
+        } else if (result == 'fail') {
+            dispatch({
+                type: MAKE_PHOTO_FAIL,
+                payload: 'fail'
+            });
+            console.log('Photo make fail');
+        }
+    };
+}
 
+export function resetAddForm() {
+    return function (dispatch) {
+        dispatch({
+            type: RESET_ADD_FORM,
+            payload: 'reset'
+        });
+        console.log('Form reset');
+    };
+}

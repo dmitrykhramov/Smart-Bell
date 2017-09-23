@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import ControlPanel from './control-panel';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as actions from '../actions';
 
 class Stream extends Component {
     constructor(props) {
         super(props);
         this.state = {url: ""};
-	}
+    }
 
     // Setting up websocket client connection
     componentWillMount() {
@@ -16,23 +16,28 @@ class Stream extends Component {
             this.ws.binaryType = "arraybuffer";
             this.props.addSocketToState(this.ws);
             console.log("opened socket");
-		};
+        };
     }
-    
+
     componentDidMount() {
-		this.ws.onmessage = msg => {
-            if (typeof msg.data === 'string') {
+        this.ws.onmessage = msg => {
+            if (msg.data == 'log') {
+                this.props.fetchLogs();
+            } else if (msg.data == 'success' || msg.data == 'fail') {
+                this.props.photoMake(msg.data);
+            }  else {
                 var decoding = atob(msg.data); // decode a string of data from python which has been encoded using base64 encoding
                 var len = decoding.length;
                 var buffer = new ArrayBuffer(len);
                 var bytes = new Uint8Array(buffer);
-                for(var i=0; i<len; i++)
-                    bytes[i]  = decoding.charCodeAt(i);
-                var url = encode(bytes);
+                for (var i = 0; i < len; i++)
+                    bytes[i] = decoding.charCodeAt(i);
+                var url = encode(decoding);
                 this.setState({url: url});
             }
+
         };
-	}
+    }
 
     render() {
         return (
@@ -80,5 +85,5 @@ function encode(input) {
             keyStr.charAt(enc3) + keyStr.charAt(enc4);
     }
 
-    return "data:image/jpg;base64,"+output;
+    return "data:image/jpg;base64," + output;
 }
