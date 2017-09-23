@@ -46,7 +46,7 @@ class AddVisitor extends Component {
     componentWillUnmount() {
         this.setState({photo_accept: ""});
     }
-    
+
     handleFormSubmit(formProps) {
         this.props.addVisitor(formProps);
         this.handleHideOrShow('true')
