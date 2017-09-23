@@ -16,7 +16,7 @@ class Log extends Component {
                         Name: {log.firstname} {log.lastname}
                         <br />
                         Time: {log.time}
-                        {/*<img src={"data:image/jpg;base64," + log.photo} />*/}
+                        <img src={"data:image/jpg;base64," + log.photo} />
                     </div>
                 );
             });

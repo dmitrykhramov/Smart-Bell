@@ -31,7 +31,9 @@ class SocketHandler(websocket.WebSocketHandler):
 			stream_thread.change_capture_flag()
 		elif message == "photo_upload":
 			print("upload")
-			self.write(collect.upload_photo())
+			result = collect.upload_photo()
+			print(result)
+			self.write_message(result)
 			
 		else:
 			print("delete")

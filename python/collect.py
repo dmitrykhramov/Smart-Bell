@@ -14,6 +14,7 @@ db = mongo_db.smartbell.visitors
 
 def encoding_picture(picture_path, __id):
 	try:
+		print("encoding")
 		image = face_recognition.load_image_file(picture_path)
 		small_image = cv2.resize(image, (0, 0), fx=0.25, fy=0.25)
 		# Encode the visitor's face
@@ -41,7 +42,7 @@ def encoding_picture(picture_path, __id):
 		return "fail"
 		
 def upload_photo():
-	
+	print("upload photo func")
 	save.make_directory('pics/upload')
 	visitors = db.find_one(sort=[('_id',-1)])
 	
