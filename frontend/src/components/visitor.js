@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
+import ReactConfirmAlert, { confirmAlert } from 'react-confirm-alert';      // refer https://www.npmjs.com/package/react-confirm-alert
+import 'react-confirm-alert/src/react-confirm-alert.css';
+
 class Visitor extends Component {
 
     constructor(props) {
@@ -9,7 +12,19 @@ class Visitor extends Component {
         this.deleteVisitor = this.deleteVisitor.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
-
+    
+    submit = (id) => e => {
+        confirmAlert({
+            title: 'Confirm to delete.',                        // Title dialog 
+            message: 'Are you sure to delete this visitor?',    // Message dialog 
+            childrenElement: () => <div></div>,                 // Custom UI or Component 
+            confirmLabel: 'Confirm',                            // Text button confirm 
+            cancelLabel: 'Cancel',                              // Text button cancel 
+            onConfirm: this.deleteVisitor(id),                  // Action after Confirm 
+            onCancel: () => close()                               // Action after Cancel 
+          });
+          
+    };
     componentWillMount() {
         this.props.fetchVisitors();
     }
@@ -21,7 +36,7 @@ class Visitor extends Component {
 			this.props.toogleAccess(id, true);
 		}
     };
-
+    
     deleteVisitor = (id) => e => {
         this.props.deleteVisitor(id);
         this.props.fetchVisitors();
@@ -35,7 +50,7 @@ class Visitor extends Component {
                 return (
                     <li className="list-group-item" key={id}>
                         {visitor.firstname} {visitor.lastname}
-                        <button onClick={this.deleteVisitor(id)} className="btn btn-danger pull-xs-right">Delete</button>
+                        <button onClick={this.submit(id)} className="btn btn-danger pull-xs-right">Delete</button>
                         <button className="btn btn-primary pull-xs-right" onClick={this.handleClick(id, visitor.access)}>{visitor.access == true ? 'Open' : 'Close'}</button>
                     </li>
                 );
@@ -46,7 +61,7 @@ class Visitor extends Component {
     render() {
         return (
             <div>
-                <ul className="list-group">
+                <ul className="list-group fadeIn">
                     {this.renderVisitors()}
                 </ul>
             </div>

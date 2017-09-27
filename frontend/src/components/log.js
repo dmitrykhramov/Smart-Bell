@@ -12,11 +12,13 @@ class Log extends Component {
         if (this.props.logs) {
             return this.props.logs.map((log) => {
                 return (
-                    <div className="list-group-item" key={log._id}>
+                    <div className="list-group-item fadeIn" key={log._id}>
                         Name: {log.firstname} {log.lastname}
                         <br />
                         Time: {log.time}
                         <img src={"data:image/jpg;base64," + log.photo} />
+                        <br />
+                        {log.access}
                     </div>
                 );
             });

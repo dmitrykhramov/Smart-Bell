@@ -9,7 +9,8 @@ class AddVisitor extends Component {
         this.state = {
             classVisitorForm: "",
             classMakePhotoForm: "displayNone",
-            addVisitorSucceed: 'false'
+            addVisitorSucceed: 'false',
+            errorMsg: ""
         };
     }
     
@@ -18,16 +19,28 @@ class AddVisitor extends Component {
     }
 
     handleHideOrShow(hideOrShow) {
-        this.setState({
-            classVisitorForm: "displayNone",
-            addVisitorSucceed: hideOrShow,
-            classMakePhotoForm: ""
-        });
+        if(hideOrShow == true) {
+            this.setState({
+                classVisitorForm: "displayNone",
+                //addVisitorSucceed: hideOrShow,
+                classMakePhotoForm: ""
+            });
+        }
+        else {
+            this.setState({
+                classVisitorForm: "",
+                //addVisitorSucceed: hideOrShow,
+                classMakePhotoForm: "displayNone",
+                errorMsg: "There is error while adding a visitor, please refresh the browser and do it again."
+            });
+        }
+        
     }
 
     handleFormSubmit(formProps) {
         this.props.addVisitor(formProps);
-        this.handleHideOrShow('true')
+        this.handleHideOrShow(true)
+        console.log(this.state.addFlag);
     }
 
     makePhoto() {
@@ -63,7 +76,7 @@ class AddVisitor extends Component {
                     </fieldset>
                     <button action="submit" className="btn btn-primary">Add visitor</button>
                 </form>
-                <br />
+                <p className="error">{this.state.errorMsg}</p>
                 <div className={this.state.classMakePhotoForm + " fadeIn"}>
                     <p>Basic information is saved.</p>
                     <p>Please save your photo via either 'Make photo' or 'File upload'</p>
