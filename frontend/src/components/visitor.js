@@ -2,17 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
+/*
 import ReactConfirmAlert, { confirmAlert } from 'react-confirm-alert';      // refer https://www.npmjs.com/package/react-confirm-alert
 import 'react-confirm-alert/src/react-confirm-alert.css';
-
+*/
 class Visitor extends Component {
 
     constructor(props) {
         super(props);
+        this.state = { delete: 0};
         this.deleteVisitor = this.deleteVisitor.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
-    
+    /* // for better alerting dialog
     submit = (id) => e => {
         confirmAlert({
             title: 'Confirm to delete.',                        // Title dialog 
@@ -24,9 +26,15 @@ class Visitor extends Component {
             onCancel: () => close()                               // Action after Cancel 
           });
           
-    };
+    };*/
     componentWillMount() {
         this.props.fetchVisitors();
+    }
+
+    componentDidUpdate() {
+        if (this.props.deleteFlag == 'success') {
+            this.props.fetchVisitors();
+        }
     }
 
     handleClick = (id, access) => e => {
@@ -38,11 +46,14 @@ class Visitor extends Component {
     };
     
     deleteVisitor = (id) => e => {
-        this.props.deleteVisitor(id);
-        this.props.fetchVisitors();
-        this.props.ws.send(id);
+        onClick: if(confirm('Are you sure to delete this visitor?')){
+            this.props.deleteVisitor(id);
+            this.props.ws.send(id); // when it doesn't connect to websocket, it makes tetchvisitors fn disable
+            this.setState({delete: 1});
+        }
     };
-
+    
+    
     renderVisitors() {
         if (this.props.visitors) {
             return this.props.visitors.map((visitor) => {
@@ -50,7 +61,7 @@ class Visitor extends Component {
                 return (
                     <li className="list-group-item" key={id}>
                         {visitor.firstname} {visitor.lastname}
-                        <button onClick={this.submit(id)} className="btn btn-danger pull-xs-right">Delete</button>
+                        <button onClick={this.deleteVisitor(id)} className="btn btn-danger pull-xs-right">Delete</button>
                         <button className="btn btn-primary pull-xs-right" onClick={this.handleClick(id, visitor.access)}>{visitor.access == true ? 'Open' : 'Close'}</button>
                     </li>
                 );
@@ -61,9 +72,10 @@ class Visitor extends Component {
     render() {
         return (
             <div>
-                <ul className="list-group fadeIn">
+                <ul className="list-group fadeIn" onChange={this.fetchVisitors}>
                     {this.renderVisitors()}
                 </ul>
+                {this.props.deleteFlag}
             </div>
         );
     }

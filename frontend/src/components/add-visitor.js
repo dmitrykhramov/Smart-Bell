@@ -40,7 +40,7 @@ class AddVisitor extends Component {
     handleFormSubmit(formProps) {
         this.props.addVisitor(formProps);
         this.handleHideOrShow(true)
-        console.log(this.state.addFlag);
+        console.log(this.props.addFlag);
     }
 
     makePhoto() {
@@ -84,7 +84,9 @@ class AddVisitor extends Component {
                     <br />
                     <input type="file" onChange={this.handleFileUpload} />
                 </div>
+                {this.props.addFlag}
             </div>
+
         );
     }
 }
