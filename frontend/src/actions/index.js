@@ -171,8 +171,10 @@ export function uploadDocument({file}, ws) {
     return (dispatch) => {
         axios.post(`${ROOT_URL}/photo`, data)
             .then(response => {
-				 dispatch({type: UPLOAD_DOCUMENT_SUCCESS, payload: 'success'});
-				 ws.send("photo_upload");
+                // it causes error when it sends success msg first before sending request to websocket when it isn't connected
+                // that's why I changed the order // by jun
+                ws.send("photo_upload");
+                dispatch({type: UPLOAD_DOCUMENT_SUCCESS, payload: 'success'});
 			})
             .catch(error => dispatch({type: UPLOAD_DOCUMENT_FAIL, payload: 'fail'}));
     };

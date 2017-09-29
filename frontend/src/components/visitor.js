@@ -48,7 +48,7 @@ class Visitor extends Component {
     deleteVisitor = (id) => e => {
         onClick: if(confirm('Are you sure to delete this visitor?')){
             this.props.deleteVisitor(id);
-            this.props.ws.send(id); // when it doesn't connect to websocket, it makes tetchvisitors fn disable
+            this.props.ws.send(id); // when it doesn't connect to websocket, it makes fetchvisitors fn disable
             this.setState({delete: 1});
         }
     };
