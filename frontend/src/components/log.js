@@ -10,8 +10,8 @@ class Log extends Component {
 
         this.state = {
 			current:     1,
-            perPage:     3,
-            visiblePage: 3
+            perPage:     5,
+            visiblePage: 5
 		};
     }
 
@@ -143,13 +143,15 @@ class Log extends Component {
             let itemsTotal= this.props.logs.length;
             let pagesTotal = Math.round( itemsTotal/this.state.perPage);
             return(
-                <ul className='pagination'>
-                    <li onClick={(e) =>this.handleFirst(e.currentTarget.value)} value={this.state.current}><a>1</a></li>
-                    <li onClick={(e) =>this.handlePrev(e.currentTarget.value)} value={this.state.current}><a>Prev</a></li>
-                    {this.renderPage()}
-                    <li onClick={(e) =>this.handleNext(e.currentTarget.value)} value={this.state.current}><a>Next</a></li>
-                    <li onClick={(e) =>this.handleLast(e.currentTarget.value)} value={this.state.current}><a>{pagesTotal}</a></li>
-                </ul>
+                <div>
+                    <ul className='pagination'>
+                        <li onClick={(e) =>this.handleFirst(e.currentTarget.value)} value={this.state.current}><a>1</a></li>
+                        <li onClick={(e) =>this.handlePrev(e.currentTarget.value)} value={this.state.current}><a>Prev</a></li>
+                        {this.renderPage()}
+                        <li onClick={(e) =>this.handleNext(e.currentTarget.value)} value={this.state.current}><a>Next</a></li>
+                        <li onClick={(e) =>this.handleLast(e.currentTarget.value)} value={this.state.current}><a>{pagesTotal}</a></li>
+                    </ul>
+                </div>
             )
         }
     }
@@ -173,14 +175,60 @@ class Log extends Component {
             });
         }
     }
-
+    handlePerPage(perPage){
+        this.setState({perPage});
+    }
+    perPageRender(){
+        return(
+            <div className="dropdown">
+                <label>Logs Per Page: </label>
+                <button className="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">{this.state.perPage}
+                </button>
+                <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
+                    <li onClick={(e) => this.handlePerPage(e.currentTarget.value)} value="3" role="presentation"><a role="menuitem" tabindex="-1" href="#">3</a></li>
+                    <li onClick={(e) => this.handlePerPage(e.currentTarget.value)} value="5" role="presentation"><a role="menuitem" tabindex="-1" href="#">5</a></li>
+                    <li onClick={(e) => this.handlePerPage(e.currentTarget.value)} value="10" role="presentation"><a role="menuitem" tabindex="-1" href="#">10</a></li>
+                    {/* <li role="presentation" className="divider"></li> */}
+                    <li onClick={(e) => this.handlePerPage(e.currentTarget.value)} value="15" role="presentation"><a role="menuitem" tabindex="-1" href="#">15</a></li>
+                    <li onClick={(e) => this.handlePerPage(e.currentTarget.value)} value="20" role="presentation"><a role="menuitem" tabindex="-1" href="#">20</a></li>
+                </ul>
+            </div>
+        );
+    }
+    handleVisiblePage(visiblePage){
+        this.setState({visiblePage});
+    }
+    visiblePageRender(){
+        return(
+            <div className="dropdown">
+                <label>Pages: </label>
+                <button className="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">{this.state.visiblePage}
+                </button>
+                <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
+                    <li onClick={(e) => this.handleVisiblePage(e.currentTarget.value)} value="3" role="presentation"><a role="menuitem" tabindex="-1" href="#">3</a></li>
+                    <li onClick={(e) => this.handleVisiblePage(e.currentTarget.value)} value="5" role="presentation"><a role="menuitem" tabindex="-1" href="#">5</a></li>
+                    <li onClick={(e) => this.handleVisiblePage(e.currentTarget.value)} value="10" role="presentation"><a role="menuitem" tabindex="-1" href="#">10</a></li>
+                    {/* <li role="presentation" className="divider"></li> */}
+                    <li onClick={(e) => this.handleVisiblePage(e.currentTarget.value)} value="15" role="presentation"><a role="menuitem" tabindex="-1" href="#">15</a></li>
+                    <li onClick={(e) => this.handleVisiblePage(e.currentTarget.value)} value="20" role="presentation"><a role="menuitem" tabindex="-1" href="#">20</a></li>
+                </ul>
+            </div>
+        );
+    }
     render() {
         return (
             <div>
+                <div className="fadeIn pull-left">
+                    {this.visiblePageRender()}
+                </div>
+                <div className="fadeIn pull-right">
+                    {this.perPageRender()}
+                </div>
+                <div className="divisionLine"></div>
                 <ul className="list-group">
                     {this.renderLogs()}
                 </ul>
-                <div className='text-center'>
+                <div className='text-center fadeIn'>
                     {this.renderPaginate()}
                 </div>
             </div>
