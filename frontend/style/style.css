@@ -106,3 +106,7 @@ a {
     from { opacity: 1; }
     to   { opacity: 0; }
 }
+
+.pagination a:hover {
+    cursor: pointer;
+}

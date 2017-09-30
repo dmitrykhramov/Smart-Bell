@@ -42,6 +42,7 @@
     "react-images-uploader": "^1.1.0",
     "react-js-pagination": "^2.2.0",
     "react-pager": "^1.3.2",
+    "react-paginate-component": "0.0.3",
     "react-redux": "4.3.0",
     "react-router": "^2.0.1",
     "react-timeout": "^1.0.1",

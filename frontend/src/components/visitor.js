@@ -39,10 +39,18 @@ class Visitor extends Component {
 
     handleClick = (id, access) => e => {
 		if (access == true) {
-			this.props.toogleAccess(id, false);
+            this.props.toogleAccess(id, false);
 		} else {
-			this.props.toogleAccess(id, true);
-		}
+            this.props.toogleAccess(id, true);
+        }
+        
+        visitorReload = setTimeout(() => {
+            console.log('visitor reloaded');
+            let doorPermission = access == false? 'Open' : 'Close';
+            let alertStr = 'Permission has been changed: ' + doorPermission;
+            onClick: alert(alertStr);
+            this.props.fetchVisitors();
+        },150);
     };
     
     deleteVisitor = (id) => e => {
@@ -59,7 +67,7 @@ class Visitor extends Component {
             return this.props.visitors.map((visitor) => {
 				let id = visitor._id;
                 return (
-                    <li className="list-group-item" key={id}>
+                    <li className="list-group-item fadeIn" key={id}>
                         {visitor.firstname} {visitor.lastname}
                         <button onClick={this.deleteVisitor(id)} className="btn btn-danger pull-xs-right">Delete</button>
                         <button className="btn btn-primary pull-xs-right" onClick={this.handleClick(id, visitor.access)}>{visitor.access == true ? 'Open' : 'Close'}</button>
@@ -72,7 +80,7 @@ class Visitor extends Component {
     render() {
         return (
             <div>
-                <ul className="list-group fadeIn" onChange={this.fetchVisitors}>
+                <ul className="list-group" onChange={this.fetchVisitors}>
                     {this.renderVisitors()}
                 </ul>
                 {this.props.deleteFlag}

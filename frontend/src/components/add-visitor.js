@@ -64,7 +64,6 @@ class AddVisitor extends Component {
         }
         else if(hOs == 'fail') {
             onClick: alert("fail");
-            
         }
         return newClass;
     }
@@ -96,8 +95,9 @@ class AddVisitor extends Component {
 
     resetFormValues(addForm) {
         setTimeout(() => {
-            addForm.reset(addForm);
+            addForm.reset();
             console.log('Form value reset');
+            console.log(addForm);
         }, 100);
     }
     render() {
@@ -133,7 +133,6 @@ class AddVisitor extends Component {
                     </fieldset>
                     <button onClick={this.makePhoto} className={this.onClickCheckMakePhoto(this.props.photoMake)}>Make photo</button>
                     <button onClick={this.onClickFormCancel} className='btn btn-danger'>Cancel Addition</button>
-                    
                     <br />
                 </div>
                 <br />
