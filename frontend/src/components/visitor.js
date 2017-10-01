@@ -19,7 +19,7 @@ class Visitor extends Component {
         
         this.state = {
             current:     1,
-            perPage:     5,
+            perPage:     10,
             visiblePage: 5,
             delete: 0
         };
@@ -54,7 +54,7 @@ class Visitor extends Component {
             this.props.toogleAccess(id, true);
         }
         
-        visitorReload = setTimeout(() => {
+        setTimeout(() => {
             console.log('visitor reloaded');
             let doorPermission = access == false? 'Open' : 'Close';
             let alertStr = 'Permission has been changed: ' + doorPermission;
@@ -211,6 +211,12 @@ class Visitor extends Component {
         if(this.props.visitors){
             let itemsTotal= this.props.visitors.length;
             let pagesTotal = Math.round( itemsTotal/this.state.perPage);
+            if (itemsTotal == 0){
+                return 'No visiotr registerd'
+            }
+            else if (itemsTotal <= this.state.perPage){
+                return
+            }
             return(
                 <div>
                     <ul className='pagination'>

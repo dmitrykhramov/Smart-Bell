@@ -142,6 +142,12 @@ class Log extends Component {
         if(this.props.logs){
             let itemsTotal= this.props.logs.length;
             let pagesTotal = Math.round( itemsTotal/this.state.perPage);
+            if (itemsTotal == 0){
+                return 'No entrance log'
+            }
+            else if (itemsTotal <= this.state.perPage){
+                return
+            }
             return(
                 <div>
                     <ul className='pagination'>

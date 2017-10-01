@@ -8,15 +8,16 @@ class AddVisitor extends Component {
         super(props);
         this.makePhoto = this.makePhoto.bind(this);
     }
-    
+    componentWillMount() {
+    }
     componentWillUnmount() {
         //when user leaves the component without making photo or upload after adding visitor
         if(this.props.addFlag=='success' && (this.props.makePhoto !='success'&& this.props.photoUpload!='success')){
-            onClick: alert("Pleaes upload your photo");
+            onClick: alert('Adding visitor has been canceled.')
+            this.onClickFormCancel();
             // stop unmount using react-router?
             // delete saved visitor without photo, maybe using python
         }
-        console.log(this.props.resetAddForm());
     }
 
     componentDidUpdate() {
@@ -29,6 +30,7 @@ class AddVisitor extends Component {
         }
         else {
         }
+        
     }
     onClickAddForm(hideOrShow) {
         let newClass = "fadeIn"
@@ -50,7 +52,8 @@ class AddVisitor extends Component {
     }
 
     handleFormSubmit(formProps) {
-        this.props.addVisitor(formProps);
+        Promise.resolve(this.props.addVisitor(formProps))
+        .then(this.props.fetchVisitors());
     }
 
     makePhoto() {
@@ -85,12 +88,28 @@ class AddVisitor extends Component {
         }
         return newClass;
     }
+    deleteLatestVisitor() {
+        let i = 0;
+        if(this.props.visitors) {
+            console.log(this.props.visitors.length);
+            return this.props.visitors.map((visitor) => {
+                if(++i == this.props.visitors.length){
+                    this.props.deleteVisitor(visitor._id);
+                console.log('last or first:' + i);
+                }
+            });
+        }
+    }
     onClickFormCancel = () => {
+        if(this.props.addFlag == 'fail' || this.props.addFlag == 'none'){
+            onClick: alert("Cancel without add basic informations is unavailable.");
+            return
+        }
         let addForm = document.getElementById('addVisitorForm');
-        
-        this.props.resetAddForm();
-        this.resetFormValues(addForm);
-        // delete saved visitor without photo
+        Promise.resolve(this.props.fetchVisitors())
+        .then(this.deleteLatestVisitor())
+        .then(this.props.resetAddForm())
+        .then(this.resetFormValues(addForm));
     }
 
     resetFormValues(addForm) {
@@ -132,15 +151,15 @@ class AddVisitor extends Component {
                         <input className={this.onClickCheckFileUpload(this.props.photoUpload)} type="file" onChange={this.handleFileUpload} />
                     </fieldset>
                     <button onClick={this.makePhoto} className={this.onClickCheckMakePhoto(this.props.photoMake)}>Make photo</button>
-                    <button onClick={this.onClickFormCancel} className='btn btn-danger'>Cancel Addition</button>
+                    <button onClick={()=>{if(confirm('Are you sure to cancel adding the visitor?')){this.onClickFormCancel()}}} className='btn btn-danger'>Cancel Addition</button>
                     <br />
                 </div>
-                <br />
+                {/* <br />
                 this is addflag: {this.props.addFlag}
                 <br />
                 this is make: {this.props.photoMake}
                 <br />
-                this is upload: {this.props.photoUpload}
+                this is upload: {this.props.photoUpload} */}
             </div>
 
         );
@@ -168,7 +187,8 @@ function validate(formProps) {
 
 function mapStateToProps(state) {
     return { errorMessage: state.bell.error, ws: state.bell.socket, addFlag: state.bell.visitor_add,
-                photoUpload: state.bell.photo_upload, photoMake: state.bell.photo_make };
+                photoUpload: state.bell.photo_upload, photoMake: state.bell.photo_make,
+                visitors: state.bell.visitors  };
 }
 
 export default reduxForm({
