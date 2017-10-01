@@ -108,19 +108,20 @@ class Visitor extends Component {
             let leftPages, rightPages;
             // console.log('total page is: ' + pagesTotal);
             return this.props.visitors.map((visitor) => {
+                let id = visitor._id;
                 i++;
                 // if the number of visible pages is bigger than total number of pages, show all
                 if (visiblePage < pagesTotal){
                     // if currunt page is leftside than half page of the visible pages.
                     if(currPage - 1 < Math.floor(visiblePage / 2)) {
-                        console.log('smaller than half');
+                        // console.log('smaller than half');
                         if(i <= visiblePage)
                         {
                             if(i==currPage){
-                                return(<li className='active'><a>{i}</a></li>)
+                                return(<li className='active' key={id}><a>{i}</a></li>)
                             }
                             else{
-                                return(<li onClick={(e) => this.handlePageChanged(e.currentTarget.value)} value={i}><a>{i}</a></li>)
+                                return(<li onClick={(e) => this.handlePageChanged(e.currentTarget.value)} value={i} key={id}><a>{i}</a></li>)
                             }
                         }
                     }
@@ -128,15 +129,15 @@ class Visitor extends Component {
                     else if(currPage + (visiblePage/2) > pagesTotal) {
                         leftPages = pagesTotal - visiblePage;
                         rightPages = pagesTotal;
-                        console.log('left is: ' + leftPages);
-                        console.log('right is: ' + rightPages);
+                        // console.log('left is: ' + leftPages);
+                        // console.log('right is: ' + rightPages);
                         if(i <= rightPages && i > leftPages)
                         {
                             if(i==currPage){
-                                return(<li className='active'><a>{i}</a></li>)
+                                return(<li className='active' key={id}><a>{i}</a></li>)
                             }
                             else{
-                                return(<li onClick={(e) => this.handlePageChanged(e.currentTarget.value)} value={i}><a>{i}</a></li>)
+                                return(<li onClick={(e) => this.handlePageChanged(e.currentTarget.value)} value={i} key={id}><a>{i}</a></li>)
                             }
                         }
                     }
@@ -144,28 +145,28 @@ class Visitor extends Component {
                     else{
                         leftPages = currPage - (visiblePage/2);
                         rightPages = currPage + (visiblePage/2);
-                        console.log('normal');
+                        // console.log('normal');
                         if(i > leftPages && i < rightPages )
                         {
                             if(i==currPage){
-                                return(<li className='active'><a>{i}</a></li>)
+                                return(<li className='active' key={id}><a>{i}</a></li>)
                             }
                             else{
-                                return(<li onClick={(e) => this.handlePageChanged(e.currentTarget.value)} value={i}><a>{i}</a></li>)
+                                return(<li onClick={(e) => this.handlePageChanged(e.currentTarget.value)} value={i} key={id}><a>{i}</a></li>)
                             }
                         }
                     }
                 }
                 else {
-                    console.log('here');
-                    console.log(pagesTotal);
+                    // console.log('here');
+                    // console.log(pagesTotal);
                     if(i <= pagesTotal && i > 0)
                     {
                         if(i==currPage){
-                            return(<li className='active'><a>{i}</a></li>)
+                            return(<li className='active' key={id}><a>{i}</a></li>)
                         }
                         else{
-                            return(<li onClick={(e) => this.handlePageChanged(e.currentTarget.value)} value={i}><a>{i}</a></li>)
+                            return(<li onClick={(e) => this.handlePageChanged(e.currentTarget.value)} value={i} key={id}><a>{i}</a></li>)
                         }
                     }
                 }

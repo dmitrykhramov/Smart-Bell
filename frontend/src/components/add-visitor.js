@@ -91,11 +91,9 @@ class AddVisitor extends Component {
     deleteLatestVisitor() {
         let i = 0;
         if(this.props.visitors) {
-            console.log(this.props.visitors.length);
             return this.props.visitors.map((visitor) => {
                 if(++i == this.props.visitors.length){
                     this.props.deleteVisitor(visitor._id);
-                console.log('last or first:' + i);
                 }
             });
         }

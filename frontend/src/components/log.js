@@ -39,6 +39,7 @@ class Log extends Component {
             let leftPages, rightPages;
             // console.log('total page is: ' + pagesTotal);
             return this.props.logs.map((log) => {
+                let id = log._id;
                 i++;
                 // if the number of visible pages is bigger than total number of pages, show all
                 if (visiblePage < pagesTotal){
@@ -48,10 +49,10 @@ class Log extends Component {
                         if(i <= visiblePage)
                         {
                             if(i==currPage){
-                                return(<li className='active'><a>{i}</a></li>)
+                                return(<li className='active' key={id}><a>{i}</a></li>)
                             }
                             else{
-                                return(<li onClick={(e) => this.handlePageChanged(e.currentTarget.value)} value={i}><a>{i}</a></li>)
+                                return(<li onClick={(e) => this.handlePageChanged(e.currentTarget.value)} value={i} key={id}><a>{i}</a></li>)
                             }
                         }
                     }
@@ -64,10 +65,10 @@ class Log extends Component {
                         if(i <= rightPages && i > leftPages)
                         {
                             if(i==currPage){
-                                return(<li className='active'><a>{i}</a></li>)
+                                return(<li className='active' key={id}><a>{i}</a></li>)
                             }
                             else{
-                                return(<li onClick={(e) => this.handlePageChanged(e.currentTarget.value)} value={i}><a>{i}</a></li>)
+                                return(<li onClick={(e) => this.handlePageChanged(e.currentTarget.value)} value={i} key={id}><a>{i}</a></li>)
                             }
                         }
                     }
@@ -80,10 +81,10 @@ class Log extends Component {
                         if(i > leftPages && i < rightPages )
                         {
                             if(i==currPage){
-                                return(<li className='active'><a>{i}</a></li>)
+                                return(<li className='active' key={id}><a>{i}</a></li>)
                             }
                             else{
-                                return(<li onClick={(e) => this.handlePageChanged(e.currentTarget.value)} value={i}><a>{i}</a></li>)
+                                return(<li onClick={(e) => this.handlePageChanged(e.currentTarget.value)} value={i} key={id}><a>{i}</a></li>)
                             }
                         }
                     }
@@ -92,10 +93,10 @@ class Log extends Component {
                     if(i <= pagesTotal && i > 0)
                     {
                         if(i==currPage){
-                            return(<li className='active'><a>{i}</a></li>)
+                            return(<li className='active' key={id}><a>{i}</a></li>)
                         }
                         else{
-                            return(<li onClick={(e) => this.handlePageChanged(e.currentTarget.value)} value={i}><a>{i}</a></li>)
+                            return(<li onClick={(e) => this.handlePageChanged(e.currentTarget.value)} value={i} key={id}><a>{i}</a></li>)
                         }
                     }
                 }
