@@ -101,7 +101,7 @@ class Visitor extends Component {
         if(this.props.visitors){
             let i = 0;
             let itemsTotal = this.props.visitors.length;
-            let pagesTotal = Math.round( itemsTotal/this.state.perPage);
+            let pagesTotal = Math.ceil( itemsTotal/this.state.perPage);
             let currPage = this.state.current;
             let visiblePage = this.state.visiblePage;
 
@@ -113,7 +113,7 @@ class Visitor extends Component {
                 if (visiblePage < pagesTotal){
                     // if currunt page is leftside than half page of the visible pages.
                     if(currPage - 1 < Math.floor(visiblePage / 2)) {
-                        // console.log('smaller than half');
+                        console.log('smaller than half');
                         if(i <= visiblePage)
                         {
                             if(i==currPage){
@@ -128,8 +128,8 @@ class Visitor extends Component {
                     else if(currPage + (visiblePage/2) > pagesTotal) {
                         leftPages = pagesTotal - visiblePage;
                         rightPages = pagesTotal;
-                        // console.log('left is: ' + leftPages);
-                        // console.log('right is: ' + rightPages);
+                        console.log('left is: ' + leftPages);
+                        console.log('right is: ' + rightPages);
                         if(i <= rightPages && i > leftPages)
                         {
                             if(i==currPage){
@@ -144,8 +144,7 @@ class Visitor extends Component {
                     else{
                         leftPages = currPage - (visiblePage/2);
                         rightPages = currPage + (visiblePage/2);
-                        
-                        // console.log('normal');
+                        console.log('normal');
                         if(i > leftPages && i < rightPages )
                         {
                             if(i==currPage){
@@ -158,6 +157,8 @@ class Visitor extends Component {
                     }
                 }
                 else {
+                    console.log('here');
+                    console.log(pagesTotal);
                     if(i <= pagesTotal && i > 0)
                     {
                         if(i==currPage){
@@ -188,7 +189,7 @@ class Visitor extends Component {
     handleNext = (currPage) => {
         if(this.props.visitors){
             let itemsTotal = this.props.visitors.length;
-            let pagesTotal = Math.round( itemsTotal/this.state.perPage);
+            let pagesTotal = Math.ceil( itemsTotal/this.state.perPage);
             if(currPage != pagesTotal){
                 this.setState({
                     current: currPage+1
@@ -199,7 +200,7 @@ class Visitor extends Component {
     handleLast = (currPage) => {
         if(this.props.visitors){
             let itemsTotal = this.props.visitors.length;
-            let pagesTotal = Math.round( itemsTotal/this.state.perPage);
+            let pagesTotal = Math.ceil( itemsTotal/this.state.perPage);
             if(currPage != pagesTotal){
                 this.setState({
                     current: pagesTotal
@@ -210,7 +211,7 @@ class Visitor extends Component {
     renderPaginate() {
         if(this.props.visitors){
             let itemsTotal= this.props.visitors.length;
-            let pagesTotal = Math.round( itemsTotal/this.state.perPage);
+            let pagesTotal = Math.ceil( itemsTotal/this.state.perPage);
             if (itemsTotal == 0){
                 return 'No visiotr registerd'
             }

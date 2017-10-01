@@ -32,7 +32,7 @@ class Log extends Component {
         if(this.props.logs){
             let i = 0;
             let itemsTotal = this.props.logs.length;
-            let pagesTotal = Math.round( itemsTotal/this.state.perPage);
+            let pagesTotal = Math.ceil( itemsTotal/this.state.perPage);
             let currPage = this.state.current;
             let visiblePage = this.state.visiblePage;
 
@@ -119,7 +119,7 @@ class Log extends Component {
     handleNext = (currPage) => {
         if(this.props.logs){
             let itemsTotal = this.props.logs.length;
-            let pagesTotal = Math.round( itemsTotal/this.state.perPage);
+            let pagesTotal = Math.ceil( itemsTotal/this.state.perPage);
             if(currPage != pagesTotal){
                 this.setState({
                     current: currPage+1
@@ -130,7 +130,7 @@ class Log extends Component {
     handleLast = (currPage) => {
         if(this.props.logs){
             let itemsTotal = this.props.logs.length;
-            let pagesTotal = Math.round( itemsTotal/this.state.perPage);
+            let pagesTotal = Math.ceil( itemsTotal/this.state.perPage);
             if(currPage != pagesTotal){
                 this.setState({
                     current: pagesTotal
@@ -141,7 +141,7 @@ class Log extends Component {
     renderPaginate() {
         if(this.props.logs){
             let itemsTotal= this.props.logs.length;
-            let pagesTotal = Math.round( itemsTotal/this.state.perPage);
+            let pagesTotal = Math.ceil( itemsTotal/this.state.perPage);
             if (itemsTotal == 0){
                 return 'No entrance log'
             }
