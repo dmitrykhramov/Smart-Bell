@@ -26,13 +26,14 @@ class Stream extends Component {
             } else if (msg.data == 'success' || msg.data == 'fail') {
                 this.props.photoMake(msg.data);
             }  else {
-                var decoding = atob(msg.data); // decode a string of data from python which has been encoded using base64 encoding
-                var len = decoding.length;
-                var buffer = new ArrayBuffer(len);
-                var bytes = new Uint8Array(buffer);
-                for (var i = 0; i < len; i++)
-                    bytes[i] = decoding.charCodeAt(i);
-                var url = encode(bytes);
+                //var decoding = atob(msg.data); // decode a string of data from python which has been encoded using base64 encoding
+                //var len = decoding.length;
+                //var buffer = new ArrayBuffer(len);
+                //var bytes = new Uint8Array(buffer);
+                //for (var i = 0; i < len; i++)
+                //    bytes[i] = decoding.charCodeAt(i);
+                //var url = encode(bytes);
+                var url = 'data:image/jpg;base64,'+msg.data
                 this.setState({url: url});
             }
 

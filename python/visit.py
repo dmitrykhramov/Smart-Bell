@@ -30,7 +30,7 @@ def visit(frame):
 		if __id == 0:
 			print("Does not register")
 			log.save_log("Unkown", "Visitor", frame, 0, log_time, False)
-			for n in range(5):
+			for n in range(2):
 				log.led()
 		else:
 			print("I see someone id {}!".format(__id))

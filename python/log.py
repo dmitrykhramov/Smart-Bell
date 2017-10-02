@@ -60,6 +60,6 @@ def permission_check(__id, frame,log_time):
 		
 	else:
 		print("No permission, closed")
-		for n in range(5):
+		for n in range(2):
 			led()
 
