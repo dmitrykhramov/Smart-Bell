@@ -90,24 +90,26 @@ class AddVisitor extends Component {
     }
     deleteLatestVisitor() {
         let i = 0;
-        if(this.props.visitors) {
-            return this.props.visitors.map((visitor) => {
-                if(++i == this.props.visitors.length){
-                    this.props.deleteVisitor(visitor._id);
-                }
-            });
-        }
+        setTimeout(()=> {
+            if(this.props.visitors) {
+                return this.props.visitors.map((visitor) => {
+                    if(++i == this.props.visitors.length){
+                        this.props.deleteVisitor(visitor._id);
+                    }
+                });
+            }
+        },100);
     }
     onClickFormCancel = () => {
         if(this.props.addFlag == 'fail' || this.props.addFlag == 'none'){
-            onClick: alert("Cancel without add basic informations is unavailable.");
+            onClick: alert("Cancel without adding basic information is unavailable.");
             return
         }
         let addForm = document.getElementById('addVisitorForm');
-        Promise.resolve(this.props.fetchVisitors())
-        .then(this.deleteLatestVisitor())
-        .then(this.props.resetAddForm())
-        .then(this.resetFormValues(addForm));
+        this.props.fetchVisitors();
+        this.deleteLatestVisitor();
+        this.props.resetAddForm();
+        this.resetFormValues(addForm);
     }
 
     resetFormValues(addForm) {
