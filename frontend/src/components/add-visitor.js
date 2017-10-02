@@ -95,13 +95,15 @@ class AddVisitor extends Component {
                 let visitorLen = this.props.visitors.length;
                 console.log(visitorLen);
                 return this.props.visitors.map((visitor,i) => {
+					let id = visitor._id;
                     if(visitorLen === i + 1){
                         console.log('delete ' + i +", " + visitor.firstname);
-                        this.props.deleteVisitor(visitor._id);
+                        this.props.deleteVisitor(id);
+                        this.props.ws.send(id);
                     }
                 });
             }
-        },150);
+        },100);
     }
     onClickFormCancel = () => {
         if(this.props.addFlag == 'fail' || this.props.addFlag == 'none'){
