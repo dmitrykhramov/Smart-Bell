@@ -3,6 +3,7 @@ import { withRouter } from 'react-router';
 import { reduxForm } from 'redux-form';
 import * as actions from '../actions';
 
+
 class AddVisitor extends Component {
     constructor(props) {
         super(props);
@@ -89,16 +90,18 @@ class AddVisitor extends Component {
         return newClass;
     }
     deleteLatestVisitor() {
-        let i = 0;
         setTimeout(()=> {
             if(this.props.visitors) {
-                return this.props.visitors.map((visitor) => {
-                    if(++i == this.props.visitors.length){
+                let visitorLen = this.props.visitors.length;
+                console.log(visitorLen);
+                return this.props.visitors.map((visitor,i) => {
+                    if(visitorLen === i + 1){
+                        console.log('delete ' + i +", " + visitor.firstname);
                         this.props.deleteVisitor(visitor._id);
                     }
                 });
             }
-        },100);
+        },150);
     }
     onClickFormCancel = () => {
         if(this.props.addFlag == 'fail' || this.props.addFlag == 'none'){
@@ -108,12 +111,12 @@ class AddVisitor extends Component {
         let addForm = document.getElementById('addVisitorForm');
         this.props.fetchVisitors();
         this.deleteLatestVisitor();
-        this.props.resetAddForm();
         this.resetFormValues(addForm);
     }
 
     resetFormValues(addForm) {
         setTimeout(() => {
+            this.props.resetAddForm();
             addForm.reset();
             console.log('Form value reset');
             console.log(addForm);
@@ -121,7 +124,7 @@ class AddVisitor extends Component {
     }
     render() {
         const { handleSubmit, fields: { firstname, lastname, email }} = this.props;
-
+        // console.log(this.props.values);
         return (
             <div>
                 <form id="addVisitorForm" className={this.onClickAddForm(this.props.addFlag)} onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
