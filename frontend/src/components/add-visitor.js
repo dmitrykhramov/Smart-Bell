@@ -92,9 +92,11 @@ class AddVisitor extends Component {
         let i = 0;
         setTimeout(()=> {
             if(this.props.visitors) {
+				console.log(this.props.visitors.length);
                 return this.props.visitors.map((visitor) => {
                     if(++i == this.props.visitors.length){
-                        this.props.deleteVisitor(visitor._id);
+						console.log("delete item is: " + i + ". " + visitor.firstname);
+						this.props.deleteVisitor(visitor._id);
                     }
                 });
             }
@@ -109,7 +111,7 @@ class AddVisitor extends Component {
         this.props.fetchVisitors();
         this.deleteLatestVisitor();
         this.props.resetAddForm();
-        this.resetFormValues(addForm);
+        //this.resetFormValues(addForm);
     }
 
     resetFormValues(addForm) {
@@ -154,12 +156,12 @@ class AddVisitor extends Component {
                     <button onClick={()=>{if(confirm('Are you sure to cancel adding the visitor?')){this.onClickFormCancel()}}} className='btn btn-danger'>Cancel Addition</button>
                     <br />
                 </div>
-                {/* <br />
+                 <br />
                 this is addflag: {this.props.addFlag}
                 <br />
                 this is make: {this.props.photoMake}
                 <br />
-                this is upload: {this.props.photoUpload} */}
+                this is upload: {this.props.photoUpload}
             </div>
 
         );
