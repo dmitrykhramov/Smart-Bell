@@ -1,3 +1,6 @@
+.divisionLine {
+    clear: both;
+}
 .error {
     color: red;
 }
@@ -105,4 +108,8 @@ a {
 @-o-keyframes fadeout {
     from { opacity: 1; }
     to   { opacity: 0; }
+}
+
+.pagination a:hover {
+    cursor: pointer;
 }
