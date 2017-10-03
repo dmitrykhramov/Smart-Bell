@@ -10,8 +10,6 @@ from pymongo import MongoClient
 mongo_db = MongoClient('localhost',27017)
 db = mongo_db.smartbell.visitors
 
-
-
 def encoding_picture(picture_path, __id):
 	try:
 		print("encoding")
