@@ -23,8 +23,7 @@ class SocketHandler(websocket.WebSocketHandler):
 		print("client connected")
 		stream_thread.add_client(self)
 		stream_thread.change_socket_flag()
-		
-		
+
 	def on_message(self, message):
 		if message == "photo_make":
 			print("photo")
