@@ -46,6 +46,12 @@ def upload_photo():
 	
 	return encoding_picture('pics/upload/img0.jpg', visitors['_id'])
 	
+def cancel_add():
+	print("cancel add visitor")
+	visitors = db.find_one(sort=[('_id',-1)])
+	db.remove({'_id':visitors['_id']})
+	print("delete")
+	
 def make_photo(frame):
 	'''
 	This function is to collect encoding face data.

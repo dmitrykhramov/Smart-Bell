@@ -33,7 +33,8 @@ class SocketHandler(websocket.WebSocketHandler):
 			result = collect.upload_photo()
 			print(result)
 			self.write_message(result)
-			
+		elif message == "cancel":
+			collect.cancel_add()
 		else:
 			print("delete")
 			print(delete_face(message))
