@@ -5,6 +5,42 @@
     color: red;
 }
 
+/*Custom CSS*/
+.wrapper{
+    display: table;
+}
+
+.content-wrapper {
+    height: 100vh;
+    width: 100vw;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.btn-custom {
+    background-color: transparent !important;
+}
+
+.bg-signin {
+    background-image: url('./static/images/bg.jpg');
+    background-size: cover;
+}
+
+.bg-main {
+    background-image: url('./static/images/bg-main.png');
+    background-size: cover;
+}
+
+.list-group-item{
+    line-height: 3.0 !important;
+    font-size: 15px;
+}
+
+.navbar-custom{
+    margin-bottom: 0px !important;
+    font-size: 18px;
+}
+
 nav li {
     display: inline-block;
     margin-right: 5px;
@@ -26,9 +62,14 @@ nav li.current a {
     text-decoration: none;
 }
 
+.nav-link {
+    font-size: 19px !important;
+}
+
 a {
     text-decoration: none;
 }
+
 .thumbnail img {
     width: 100%;
     height: auto;
@@ -38,6 +79,7 @@ a {
     display: none;
 }
 .fadeIn{
+    color:white;
     -webkit-animation: fadein 0.7s; /* Safari, Chrome and Opera > 12.1 */
        -moz-animation: fadein 0.7s; /* Firefox < 16 */
         -ms-animation: fadein 0.7s; /* Internet Explorer */
