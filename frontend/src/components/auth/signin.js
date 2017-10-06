@@ -23,7 +23,7 @@ class Signin extends Component {
 
         return (
             <div className="wrapper bg-signin">
-                <div className="container-fluid content-wrapper">
+                <div className="container-fluid content-wrapper" style={{verticalAlign:"middle"}}>
                     <div className="row">
                     <div className="col-md-4" style={{paddingLeft:"5rem"}}>
                             <h1 style={{color:"white"}}>Smart Bell</h1>

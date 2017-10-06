@@ -170,13 +170,17 @@ class Log extends Component {
                 if(i-1 >= (this.state.current-1)*this.state.perPage && i-1 <this.state.current*this.state.perPage){
                         return (
                         <div className="list-group-item fadeIn" key={log._id}>
-                            Name: {log.firstname} {log.lastname}
-                            <br />
-                            Time: {log.time}
-                            <img src={"data:image/jpg;base64," + log.photo} />
-                            <br />
-                            Permission: {log.access}
+							<div className="pull-left">
+								<p>Name: {log.firstname} {log.lastname}</p>
+								<p>Time: {log.time}</p>
+								<p>Permission: {log.access}</p>
+							</div>
+							<div className="pull-right">
+								<img src={"data:image/jpg;base64," + log.photo} />
+							</div>
+							<div className="divisionLine"></div>
                         </div>
+                        
                     );
                 }
             });

@@ -36,16 +36,10 @@ class Stream extends Component {
     render() {
         return (
             <div className="wrapper bg-main" style={{paddingTop:"90px", paddingBottom:"50px"}}>
-                <div className="container-fluid content-wrapper">
-<<<<<<< HEAD
-                <div className="col-md-4 col-md-offset-1">
-                    <div>
-                        <img id="stream" src={this.state.url} height="auto" width="100%"/>
-=======
+                <div className="content-wrapper container-fluid">
                 <div className="col-md-6">
                     <div className="col-md-8 col-md-offset-2">
                         <img id="stream" src={this.state.url} height="300" width="400"/>
->>>>>>> 2b8033262193c72acedad61702660b82b080dc0e
                     </div>
                 </div>
                 <div className="col-md-6">

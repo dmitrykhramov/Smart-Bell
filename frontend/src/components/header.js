@@ -33,7 +33,7 @@ class Header extends Component {
           <Link to="/" className="navbar-brand">Smart bell</Link>
           
         </div>
-        <div className="navbar">
+        <div className="navbar navbar-slim">
             {this.renderLinks()}
           </div>
       </nav>
