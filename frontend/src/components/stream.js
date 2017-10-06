@@ -37,7 +37,7 @@ class Stream extends Component {
         return (
             <div className="wrapper bg-main">
                 <div className="container-fluid content-wrapper">
-                <div className="col-md-6">
+                <div className="col-md-4 col-md-offset-1">
                     <div>
                         <img id="stream" src={this.state.url} height="auto" width="100%"/>
                     </div>
