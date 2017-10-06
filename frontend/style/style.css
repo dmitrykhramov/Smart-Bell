@@ -7,7 +7,7 @@
 
 /*Custom CSS*/
 .wrapper{
-    display: table;
+    display: table;.....................
 }
 
 .content-wrapper {
@@ -34,7 +34,11 @@
 .list-group-item{
     line-height: 3.0 !important;
     font-size: 15px;
+<<<<<<< HEAD
     background: transparent;
+=======
+    background: transparent !important;
+>>>>>>> 2b8033262193c72acedad61702660b82b080dc0e
 }
 
 .navbar-custom{

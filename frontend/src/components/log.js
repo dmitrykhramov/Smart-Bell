@@ -175,7 +175,7 @@ class Log extends Component {
                             Time: {log.time}
                             <img src={"data:image/jpg;base64," + log.photo} />
                             <br />
-                            {log.access}
+                            Permission: {log.access}
                         </div>
                     );
                 }
