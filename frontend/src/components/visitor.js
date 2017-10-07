@@ -56,7 +56,7 @@ class Visitor extends Component {
         
         setTimeout(() => {
             console.log('visitor reloaded');
-            let doorPermission = access == false? 'Open' : 'Close';
+            let doorPermission = access == false? 'Allowed' : 'Denied';
             let alertStr = 'Permission has been changed: ' + doorPermission;
             onClick: alert(alertStr);
             this.props.fetchVisitors();
@@ -80,7 +80,7 @@ class Visitor extends Component {
                     <li className="list-group-item fadeIn" key={id} style={{minHeight:"20px", lineHeight:"0"}}>
                         {visitor.firstname} {visitor.lastname}
                         <button onClick={this.deleteVisitor(id)} className="btn btn-danger pull-xs-right">Delete</button>
-                        <button className="btn btn-primary pull-xs-right" onClick={this.handleClick(id, visitor.access)}>{visitor.access == true ? 'Open' : 'Close'}</button>
+                        <button className="btn btn-primary pull-xs-right" onClick={this.handleClick(id, visitor.access)}>{visitor.access == true ? 'Allowed' : 'Denied'}</button>
                     </li>
                 );
             });
@@ -240,10 +240,10 @@ class Visitor extends Component {
                 i++;
                 if(i-1 >= (this.state.current-1)*this.state.perPage && i-1 <this.state.current*this.state.perPage) {
                     return (
-                        <li className="list-group-item fadeIn" key={id} style={{backgroundColor:"black", color:"white"}}>
+                        <li className="list-group-item visitor-line fadeIn" key={id} style={{backgroundColor:"black", color:"white"}}>
                             {visitor.firstname} {visitor.lastname}
                             <button onClick={this.deleteVisitor(id)} className="btn btn-danger pull-xs-right">Delete</button>
-                            <button className="btn btn-default pull-xs-right" onClick={this.handleClick(id, visitor.access)}>{visitor.access == true ? 'Open' : 'Close'}</button>
+                            <button className="btn btn-default pull-xs-right" onClick={this.handleClick(id, visitor.access)}>{visitor.access == true ? 'Allowed' : 'Denied'}</button>
                         </li>
                     );
                 }

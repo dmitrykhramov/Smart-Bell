@@ -5,16 +5,21 @@
     color: red;
 }
 
+.nopadding{
+	margin: 0;
+	padding: 0;
+	line-height: 2 !important;
+}
+
 /*Custom CSS*/
 .wrapper{
-    display: table;.....................
+    display: table;
 }
 
 .content-wrapper {
     height: 100vh;
     width: 100vw;
     display: table-cell;
-    vertical-align: middle;
 }
 
 .btn-custom {
@@ -31,15 +36,24 @@
     background-size: cover;
 }
 
+.visitor-line{
+	line-height: 3.0 !important;
+}
+
+
 .list-group-item{
-    line-height: 3.0 !important;
     font-size: 15px;
     background: transparent !important;
+}
+
+.navbar-slim{
+	margin-bottom: 0px !important; 
 }
 
 .navbar-custom{
     margin-bottom: 0px !important;
     font-size: 18px;
+    background: black;
 }
 
 nav li {
