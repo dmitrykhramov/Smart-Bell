@@ -175,7 +175,7 @@ class Log extends Component {
                             Time: {log.time}
                             <img src={"data:image/jpg;base64," + log.photo} />
                             <br />
-                            {log.access}
+                            Permission: {log.access}
                         </div>
                     );
                 }
@@ -189,7 +189,7 @@ class Log extends Component {
         return(
             <div className="dropdown">
                 <label>Logs Per Page: </label>
-                <button className="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">{this.state.perPage}
+                <button className="btn btn-custom dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">{this.state.perPage}
                 </button>
                 <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
                     <li onClick={(e) => this.handlePerPage(e.currentTarget.value)} value="3" role="presentation"><a role="menuitem" tabindex="-1" href="#">3</a></li>
@@ -209,7 +209,7 @@ class Log extends Component {
         return(
             <div className="dropdown">
                 <label>Pages: </label>
-                <button className="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">{this.state.visiblePage}
+                <button className="btn btn-custom dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">{this.state.visiblePage}
                 </button>
                 <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
                     <li onClick={(e) => this.handleVisiblePage(e.currentTarget.value)} value="3" role="presentation"><a role="menuitem" tabindex="-1" href="#">3</a></li>

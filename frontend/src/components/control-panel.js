@@ -34,8 +34,8 @@ var Tabs = React.createClass({
 
     render: function(){
         return (
-            <nav>
-                <ul>
+            <nav style={{paddingLeft:"3rem", backgroundColor:"rgba(0, 0, 0, 0.4)"}}>
+                <ul style={{marginLeft:"0", paddingLeft:"0"}}>
                     {this.props.tabList.map(function(tab) {
                         return (
                             <Tab
@@ -94,14 +94,18 @@ var ControlPanel = React.createClass({
 
     render: function(){
         return(
-            <div>
+
+            <div style={{backgroundColor:"rgba(0, 0, 0, 0.7)"}}>
                 <Tabs
                     currentTab={this.state.currentTab}
                     tabList={this.state.tabList}
                     changeTab={this.changeTab}
                 />
-                <Content currentTab={this.state.currentTab} />
+                <div style={{padding: "3rem"}}>
+                    <Content currentTab={this.state.currentTab} />
+                </div>
             </div>
+        
         );
     }
 });
