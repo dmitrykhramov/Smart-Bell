@@ -10,7 +10,7 @@ class Log extends Component {
 
         this.state = {
 			current:     1,
-            perPage:     5,
+            perPage:     3,
             visiblePage: 5
 		};
     }
