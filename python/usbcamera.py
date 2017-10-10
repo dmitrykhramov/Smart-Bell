@@ -25,16 +25,20 @@ class SocketHandler(websocket.WebSocketHandler):
 		stream_thread.change_socket_flag()
 
 	def on_message(self, message):
+		# when making a photo
 		if message == "photo_make":
 			print("photo")
 			stream_thread.change_capture_flag()
+		# when uploading a photo
 		elif message == "photo_upload":
 			print("upload")
 			result = collect.upload_photo()
 			print(result)
 			self.write_message(result)
+		# when canceling to add visitor
 		elif message == "cancel":
 			collect.cancel_add()
+		# when deleting a visitor
 		else:
 			print("delete")
 			print(delete_face(message))

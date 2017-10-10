@@ -15,7 +15,7 @@ db_log = mongo_db.smartbell.logs
 
 def led():
 	'''
-	This function is to blink led when checking a permission to access
+	This function is to blink led when checking a permission to access.
 	'''
 	GPIO.output(27,True)
 	time.sleep(1)
@@ -25,12 +25,9 @@ def led():
 
 def save_log(firstname, lastname, frame, __id, log_time, access):
 	'''
-	This function is to check permission of the visitor and save entrance log, if he or she has permission to access.
-	First, we check access permission using visitor's id. (access value is 'true' or 'false')
-	If the visitor doesn't have permission to access, we would close the door and led blinks 5 times.
-	If the visitor has the permission, we would open the door and save the log which is about firstname, lastname and time, and led blinks once.
+	This function is to save entrance log.
+
 	'''
-	
 	flag, jpeg = cv2.imencode('.jpg', frame)
 	encoding_frame = base64.b64encode(jpeg)
 	
@@ -43,6 +40,12 @@ def save_log(firstname, lastname, frame, __id, log_time, access):
 	return log_time
 
 def permission_check(__id, frame,log_time):
+	'''
+	This function is to check permission to access.
+	It checks permission using visitor's id. (access value is 'true' or 'false') Then, it saves the log about all visitors.
+	If the visitor doesn't have permission to access, led blinks 2 times and door stays close.
+	Otherwise, if the visitor has permisson, it sends an email to the visitor about their entrance, then led blinks once.
+	'''
 	# Check permission to access 
 	db_visitors = mongo_db.smartbell.visitors
 	try:

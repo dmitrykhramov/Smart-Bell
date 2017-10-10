@@ -8,7 +8,7 @@ class Signout extends Component {
   }
 
   render() {
-    return <div>Sorry to see you go...</div>;
+    return <div>Sorry to see you go...{alert("You successfully signed out")}{window.location = "/"}</div>;
   }
 }
 

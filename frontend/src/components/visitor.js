@@ -56,7 +56,7 @@ class Visitor extends Component {
         
         setTimeout(() => {
             console.log('visitor reloaded');
-            let doorPermission = access == false? 'Open' : 'Close';
+            let doorPermission = access == false? 'Allowed' : 'Denied';
             let alertStr = 'Permission has been changed: ' + doorPermission;
             onClick: alert(alertStr);
             this.props.fetchVisitors();
@@ -77,10 +77,10 @@ class Visitor extends Component {
             return this.props.visitors.map((visitor) => {
 				let id = visitor._id;
                 return (
-                    <li className="list-group-item fadeIn" key={id}>
+                    <li className="list-group-item fadeIn" key={id} style={{minHeight:"20px", lineHeight:"0"}}>
                         {visitor.firstname} {visitor.lastname}
                         <button onClick={this.deleteVisitor(id)} className="btn btn-danger pull-xs-right">Delete</button>
-                        <button className="btn btn-primary pull-xs-right" onClick={this.handleClick(id, visitor.access)}>{visitor.access == true ? 'Open' : 'Close'}</button>
+                        <button className="btn btn-primary pull-xs-right" onClick={this.handleClick(id, visitor.access)}>{visitor.access == true ? 'Allowed' : 'Denied'}</button>
                     </li>
                 );
             });
@@ -214,7 +214,7 @@ class Visitor extends Component {
             let itemsTotal= this.props.visitors.length;
             let pagesTotal = Math.ceil( itemsTotal/this.state.perPage);
             if (itemsTotal == 0){
-                return 'No visiotr registerd'
+                return 'No visitors registered'
             }
             else if (itemsTotal <= this.state.perPage){
                 return
@@ -240,10 +240,10 @@ class Visitor extends Component {
                 i++;
                 if(i-1 >= (this.state.current-1)*this.state.perPage && i-1 <this.state.current*this.state.perPage) {
                     return (
-                        <li className="list-group-item fadeIn" key={id}>
+                        <li className="list-group-item visitor-line fadeIn" key={id} style={{backgroundColor:"black", color:"white"}}>
                             {visitor.firstname} {visitor.lastname}
                             <button onClick={this.deleteVisitor(id)} className="btn btn-danger pull-xs-right">Delete</button>
-                            <button className="btn btn-primary pull-xs-right" onClick={this.handleClick(id, visitor.access)}>{visitor.access == true ? 'Open' : 'Close'}</button>
+                            <button className="btn btn-default pull-xs-right" onClick={this.handleClick(id, visitor.access)}>{visitor.access == true ? 'Allowed' : 'Denied'}</button>
                         </li>
                     );
                 }
@@ -257,7 +257,7 @@ class Visitor extends Component {
         return(
             <div className="dropdown">
                 <label>Visitors Per Page: </label>
-                <button className="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">{this.state.perPage}
+                <button className="btn btn-custom dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">{this.state.perPage}
                 </button>
                 <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
                     <li onClick={(e) => this.handlePerPage(e.currentTarget.value)} value="3" role="presentation"><a role="menuitem" tabindex="-1" href="#">3</a></li>
@@ -277,7 +277,7 @@ class Visitor extends Component {
         return(
             <div className="dropdown">
                 <label>Pages: </label>
-                <button className="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">{this.state.visiblePage}
+                <button className="btn btn-custom dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">{this.state.visiblePage}
                 </button>
                 <ul className="dropdown-menu" role="menu" aria-labelledby="menu1">
                     <li onClick={(e) => this.handleVisiblePage(e.currentTarget.value)} value="3" role="presentation"><a role="menuitem" tabindex="-1" href="#">3</a></li>
@@ -305,7 +305,7 @@ class Visitor extends Component {
                 <ul className="list-group" onChange={this.fetchVisitors}>
                     {this.renderVisitorsPagination()}
                 </ul>
-                <div className='text-center fadeIn'>
+                <div className='text-center fadeIn' style={{color:"white"}}>
                     {this.renderPaginate()}
                 </div>
             </div>

@@ -9,12 +9,11 @@ LOCAL_TZ = pytz.timezone('Europe/Helsinki')
 
 def visit(frame):
 	'''
-	This function is to check whether the visitor is registered or not.
-	First, we check whether the frame which is the visitor's face is enough to detect face or not.
-	If it is not enough to detect face, we would print that 'Cannot detect face. Try again'.
-	If it is enough to detect face, we would send the frame to recognition.py to recognize the face.
-	Then, recognition.py returns the visitor's id if the visitor is registered, or returns 0 and led blinks 5 times.
-	If the visitor is registered, we would send the id to log.py to check permission and save the entrance log.
+	This function is excuted when a visitor pushes a button.
+	It checks whether the frame is enough to detect.
+	If the frame is enough, it calls recognition.py and check the visitor is registered.
+	If the visitor is recognized by id, it calls log.py to save the log about the visitor.
+	Otherwise, it calls log.py to save the log about that Unkown visitor tried to access the place.
 	'''
 	# Detect face
 	# If it cannot detect face, the library would return 0

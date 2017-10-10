@@ -133,21 +133,21 @@ class AddVisitor extends Component {
             <div>
                 <form id="addVisitorForm" className={this.onClassAddForm(this.props.addFlag)} onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
                     <fieldset className="form-group">
-                        <label>First name:</label>
+                        <label style={{color:"white"}}>First name:</label>
                         <input className="form-control" {...firstname} />
                         {firstname.touched && firstname.error && <div className="error">{firstname.error}</div>}
                     </fieldset>
                     <fieldset className="form-group">
-                        <label>Last name:</label>
+                        <label style={{color:"white"}}>Last name:</label>
                         <input className="form-control" {...lastname} />
                         {lastname.touched && lastname.error && <div className="error">{lastname.error}</div>}
                     </fieldset>
                     <fieldset className="form-group">
-                        <label>E-mail address:</label>
+                        <label style={{color:"white"}}>E-mail address:</label>
                         <input type="email" className="form-control" {...email} />
                         {email.touched && email.error && <div className="error">{email.error}</div>}
                     </fieldset>
-                    <button action="submit" className="btn btn-primary">Add visitor</button>
+                    <button action="submit" className="btn btn-default">Add visitor</button>
                 </form>
                 <div className={this.onClassPhoto(this.props.addFlag)}>
                     <p>Basic information is saved.</p>

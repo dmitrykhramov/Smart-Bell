@@ -5,7 +5,12 @@ from email.mime.text import MIMEText
 
 
 def email(email_address, first_name, last_name, log_time):
+	'''
+	This function is to send an email to the visitor after the visitor visited.
+	If the visitor didn't visit, they click the link to block the door.
+	'''
 	try:
+		# gmail server login and connect
 		gmail_user = 'faceit.metropolia@gmail.com'
 		gmail_password = '@mUAS@FI'
 		
@@ -13,6 +18,7 @@ def email(email_address, first_name, last_name, log_time):
 		server.starttls()
 		server.login(gmail_user, gmail_password)
 		
+		# mail content
 		msg = MIMEMultipart('alternative') 
 		msg['Subject'] = "Entrance Log"
 		msg['From']='no-reply@gmail.com'
@@ -26,6 +32,7 @@ def email(email_address, first_name, last_name, log_time):
 		part=MIMEText(link_part, 'html')
 		msg.attach(part)
 		
+		# send an email to the visitor
 		server.sendmail(gmail_user, email_address, msg.as_string())
 		print("Success to send")
 		server.quit()

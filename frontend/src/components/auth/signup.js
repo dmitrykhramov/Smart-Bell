@@ -20,27 +20,40 @@ class Signup extends Component {
 
     render() {
         const { handleSubmit, fields: { email, password, passwordConfirm }} = this.props;
-
         return (
-            <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-                <fieldset className="form-group">
-                    <label>Email:</label>
-                    <input className="form-control" {...email} />
-                    {email.touched && email.error && <div className="error">{email.error}</div>}
-                </fieldset>
-                <fieldset className="form-group">
-                    <label>Password:</label>
-                    <input className="form-control" {...password} type="password" />
-                    {password.touched && password.error && <div className="error">{password.error}</div>}
-                </fieldset>
-                <fieldset className="form-group">
-                    <label>Confirm Password:</label>
-                    <input className="form-control" {...passwordConfirm} type="password" />
-                    {passwordConfirm.touched && passwordConfirm.error && <div className="error">{passwordConfirm.error}</div>}
-                </fieldset>
-                {this.renderAlert()}
-                <button action="submit" className="btn btn-primary">Sign up!</button>
-            </form>
+            <div className="wrapper bg-signin">
+                <div className="container-fluid content-wrapper" style={{verticalAlign:"middle"}}>
+                    <div className="row">
+                    <div className="col-md-4" style={{paddingLeft:"5rem"}}>
+                            <h1 style={{color:"white"}}>Smart Bell</h1>
+                            <p style={{color:"rgba(255, 255, 255, 0.5)"}}>The unique mechanism of our SmartBell (to trigger the lock you simply face the door while pressing the doorbell button) is nearly as fast as using a key but far more convenient.
+                                Granting access to the building depending on whether a person has been granted rights to enter makes it the best method for everyday use.</p>
+                    </div>
+                    <div className="col-md-4 col-md-offset-3" style={{paddingLeft:"15rem"}}>
+                            <h2 style={{color:"white"}}>Create account</h2>
+                            <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+                            <fieldset className="form-group">
+                                <label style={{color:"white"}}>Email:</label>
+                                <input className="form-control" {...email} />
+                                {email.touched && email.error && <div className="error">{email.error}</div>}
+                            </fieldset>
+                            <fieldset className="form-group">
+                                <label style={{color:"white"}}>Password:</label>
+                                <input className="form-control" {...password} type="password" />
+                                {password.touched && password.error && <div className="error">{password.error}</div>}
+                            </fieldset>
+                            <fieldset className="form-group">
+                                <label style={{color:"white"}}>Confirm Password:</label>
+                                <input className="form-control" {...passwordConfirm} type="password" />
+                                {passwordConfirm.touched && passwordConfirm.error && <div className="error">{passwordConfirm.error}</div>}
+                            </fieldset>
+                            {this.renderAlert()}
+                            <button action="submit" className="btn btn-default">Sign up!</button>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
         );
     }
 }

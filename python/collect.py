@@ -11,6 +11,12 @@ mongo_db = MongoClient('localhost',27017)
 db = mongo_db.smartbell.visitors
 
 def encoding_picture(picture_path, __id):
+	'''
+	This function is to collect encoding face features.
+	The photo is encoded and saved with associated visitor's id.
+	If it's first time to dump, just dump it.
+	Otherwise, load 'faces_encodings.txt', append it to registered data, then dump.
+	'''
 	try:
 		print("encoding")
 		image = face_recognition.load_image_file(picture_path)
@@ -40,6 +46,10 @@ def encoding_picture(picture_path, __id):
 		return "fail"
 		
 def upload_photo():
+	'''
+	This function is one of ways for collecting face features and is executed When administrator uploads the new visitor' photo.
+	It saves the photo to static path which is 'pics/upload'.
+	'''
 	print("upload photo func")
 	save.make_directory('pics/upload')
 	visitors = db.find_one(sort=[('_id',-1)])
@@ -47,22 +57,23 @@ def upload_photo():
 	return encoding_picture('pics/upload/img0.jpg', visitors['_id'])
 	
 def cancel_add():
+	'''
+	This function is executed when administrator cancles to add a visitor.
+	It finds last person in database and deletes it.
+	'''
 	print("cancel add visitor")
 	visitors = db.find_one(sort=[('_id',-1)])
 	db.remove({'_id':visitors['_id']})
-	print("delete")
+	print("cancel success")
 	
 def make_photo(frame):
 	'''
-	This function is to collect encoding face data.
-	we detects face in the frame and check whether the frame is enough to detect face or not.
-	If not enough, it would returns False.
-	If enough, we would save the frame as '.jpg' and load the image which is saved as '.jpg'.
-	If you encode immediately the frame, it would make incorrect encoding data, because the frame is different format with '.jpg'.
-	And we associates visitor's id with the encoding data. When you want to delete visitor, you would use visitor's id. That's why we associates visitor's id with encoding data of the visitor.
-	Then, we save the associated data.
-	If it's first time to dump, just dump it.
-	If not, load 'faces_encodings.txt', append it to registered data, then dump.
+	This function is one of ways for collecting face features and is exctued when administrator makes photo.
+	It checks whether the photo is enough to encode or not.
+	If the photo is enough, it saves the photo to static path which is 'pics/img0.jpg' and calls encoding_picture function.
+	If you don't save the photo as .jpg format and immediately save the photo from usb camera, encoding face features should be different and incorrect.
+	So, the photo has to be saved as .jpg format before excuting encoding function.
+	Otherwise, it returns fail.
 	'''
 	save.make_directory('pics')
 	visitors = db.find_one(sort=[('_id',-1)])
