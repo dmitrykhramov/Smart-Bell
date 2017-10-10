@@ -1,100 +1,31 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-import AddVisitor from './add-visitor';
-import Log from './log';
-import Visitor from './visitor';
+import Tab from './tab';
+import Tabs from './tabs';
+import Content from './content';
 
-var tabList = [
+let tabList = [
     { 'id': 1, 'name': 'Entrance log', 'url': '/log' },
     { 'id': 2, 'name': 'Visitors', 'url': '/visitors' },
     { 'id': 3, 'name': 'Add visitor', 'url': '/add' }
 ];
 
-var Tab = React.createClass({
-    handleClick: function(e){
-        e.preventDefault();
-        this.props.handleClick();
-    },
+class ControlPanel extends Component {
+    constructor(props) {
+        super(props);
 
-    render: function(){
-        return (
-            <li className={this.props.isCurrent ? 'current' : null}>
-                <a onClick={this.handleClick} href={this.props.url}>
-                    {this.props.name}
-                </a>
-            </li>
-        );
-    }
-});
-
-var Tabs = React.createClass({
-    handleClick: function(tab){
-        this.props.changeTab(tab);
-    },
-
-    render: function(){
-        return (
-            <nav style={{paddingLeft:"3rem", backgroundColor:"rgba(0, 0, 0, 0.4)"}}>
-                <ul style={{marginLeft:"0", paddingLeft:"0"}}>
-                    {this.props.tabList.map(function(tab) {
-                        return (
-                            <Tab
-                                handleClick={this.handleClick.bind(this, tab)}
-                                key={tab.id}
-                                url={tab.url}
-                                name={tab.name}
-                                isCurrent={(this.props.currentTab === tab.id)}
-                            />
-                        );
-                    }.bind(this))}
-                </ul>
-            </nav>
-        );
-    }
-});
-
-var Content = React.createClass({
-    render: function(){
-        return(
-            <div className="content">
-                {this.props.currentTab === 1 ?
-                    <div className="log">
-                        <Log />
-                    </div>
-                    :null}
-
-                {this.props.currentTab === 2 ?
-                    <div className="visitors">
-                        <Visitor />
-                    </div>
-                    :null}
-
-                {this.props.currentTab === 3 ?
-                    <div className="addVisitor">
-                        <AddVisitor />
-                    </div>
-                    :null}
-
-            </div>
-        );
-    }
-});
-
-var ControlPanel = React.createClass({
-    getInitialState: function () {
-        return {
+        this.state = {
             tabList: tabList,
             currentTab: 1
-        };
-    },
+        }
+    }
 
-    changeTab: function(tab) {
+    changeTab = (tab) => {
         this.setState({ currentTab: tab.id });
-    },
+    }
 
-    render: function(){
+    render(){
         return(
-
             <div style={{backgroundColor:"rgba(0, 0, 0, 0.7)"}}>
                 <Tabs
                     currentTab={this.state.currentTab}
@@ -105,9 +36,8 @@ var ControlPanel = React.createClass({
                     <Content currentTab={this.state.currentTab} />
                 </div>
             </div>
-        
         );
     }
-});
+}
 
 export default ControlPanel;
