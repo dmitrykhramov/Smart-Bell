@@ -32,6 +32,10 @@ class Stream extends Component {
 
         };
     }
+    
+    componentWillUnmount(){
+		this.ws.close();
+	}
 
     render() {
         return (
