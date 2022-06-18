@@ -38,4 +38,4 @@ def email(email_address, first_name, last_name, log_time):
 		server.quit()
 		
 	except:  
-		print 'Something went wrong...'
+		print('Something went wrong...')
